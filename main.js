@@ -533,7 +533,7 @@ async function renderLoginArea() {
             if (document.getElementById('pw')) pwValue = document.getElementById('pw').value;
             loginDiv.innerHTML = `
                 <div class="min-h-screen bg-gray-900 flex flex-col items-center justify-center px-4 py-8">
-                    <div class="w-full max-w-md">
+                    <div class="w-full">
                         <div class="flex flex-col items-center mb-8">
                             <img src="assets/logo.png" alt="Logo" class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 mb-4" />
                             <h1 class="text-2xl sm:text-3xl font-bold text-gray-100 text-center">FIFA Statistik-Tracker</h1>

@@ -87,7 +87,7 @@ export function renderKaderTab(containerId = "app") {
     loadPlayersAndFinances(renderPlayerLists);
 
     app.innerHTML = `
-        <div class="max-w-[480px] mx-auto w-full px-2">
+        <div class="w-full px-2">
             <div class="flex flex-col sm:flex-row justify-between mb-4 gap-2">
                 <h2 class="text-lg font-semibold dark:text-white">Team-Kader</h2>
             </div>
@@ -357,7 +357,7 @@ function openPlayerForm(team, id) {
         if (player) edit = true;
     }
     showModal(`
-        <form id="player-form" class="space-y-4 px-2 max-w-[420px] mx-auto bg-gray-800 dark:bg-gray-800 dark:text-gray-100 rounded-lg text-white dark:text-white">
+        <form id="player-form" class="space-y-4 px-2 w-full mx-auto bg-gray-800 dark:bg-gray-800 dark:text-gray-100 rounded-lg text-white dark:text-white">
             <h3 class="font-bold text-lg mb-2">${edit ? "Spieler bearbeiten" : "Spieler hinzufügen"} <span class="text-xs">${team}</span></h3>
             <input type="text" name="name" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" placeholder="Name" value="${player ? player.name : ""}" required>
             <select name="position" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" required>
