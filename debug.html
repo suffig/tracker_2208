@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Module Test</title>
+</head>
+<body>
+    <div id="test">Testing individual modules...</div>
+    <script type="module">
+        console.log('Testing individual modules...');
+        
+        try {
+            import('./main_test.js').then(() => {
+                console.log('All module tests completed');
+            }).catch(e => {
+                console.error('Module test error:', e);
+            });
+        } catch (e) {
+            console.error('Error:', e);
+        }
+    </script>
+</body>
+</html>

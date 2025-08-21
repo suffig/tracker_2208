@@ -1,0 +1,47 @@
+/* Minimal Flowbite Replacement - Essential Mobile Menu Toggle */
+[data-collapse-toggle] {
+    cursor: pointer;
+}
+
+/* Hide navbar by default on mobile */
+@media (max-width: 1024px) {
+    #navbar-default {
+        display: none;
+    }
+    
+    #navbar-default.show {
+        display: block;
+    }
+}
+
+/* Basic button hover effects */
+.hover\:bg-gray-100:hover {
+    background-color: #f3f4f6;
+}
+
+.hover\:bg-gray-700:hover {
+    background-color: #374151;
+}
+
+/* Focus ring styles */
+.focus\:ring:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.focus\:ring-2:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.focus\:ring-gray-200:focus {
+    box-shadow: 0 0 0 3px rgba(229, 231, 235, 0.5);
+}
+
+.focus\:ring-gray-600:focus {
+    box-shadow: 0 0 0 3px rgba(75, 85, 99, 0.5);
+}
+
+.focus\:ring-blue-300:focus {
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);
+}

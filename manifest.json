@@ -1,0 +1,54 @@
+{
+  "name": "FIFA Statistik-Tracker",
+  "short_name": "FIFA Tracker",
+  "description": "Verfolge FIFA-Spiele, Spieler, Sperren und Finanzen",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#475569",
+  "theme_color": "#475569",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "de",
+  "categories": ["sports", "games"],
+  "icons": [
+    {
+      "src": "/tracker_1208/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tracker_1208/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tracker_1208/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/tracker_1208/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/tracker_1208/assets/logo.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/tracker_1208/assets/screenshot1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "mobile",
+      "label": "Kader-Übersicht"
+    }
+  ]
+}

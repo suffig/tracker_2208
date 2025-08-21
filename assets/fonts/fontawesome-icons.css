@@ -1,0 +1,47 @@
+/* Font Awesome Icon Replacements - Essential Icons Only */
+.fas, .fa {
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    display: inline-block;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+/* Icon mappings using Unicode symbols and text */
+.fa-users::before { content: "👥"; }
+.fa-futbol::before { content: "⚽"; }
+.fa-ban::before { content: "🚫"; }
+.fa-euro-sign::before { content: "€"; }
+.fa-chart-bar::before { content: "📊"; }
+.fa-star::before { content: "⭐"; }
+.fa-sign-out-alt::before { content: "🚪"; }
+.fa-sign-in-alt::before { content: "🔑"; }
+.fa-plus::before { content: "+"; }
+.fa-edit::before { content: "✏️"; }
+.fa-trash::before { content: "🗑️"; }
+.fa-save::before { content: "💾"; }
+.fa-times::before { content: "✖"; }
+.fa-check::before { content: "✓"; }
+.fa-arrow-left::before { content: "←"; }
+.fa-arrow-right::before { content: "→"; }
+.fa-home::before { content: "🏠"; }
+.fa-cog::before { content: "⚙️"; }
+.fa-info::before { content: "ℹ"; }
+.fa-warning::before { content: "⚠"; }
+.fa-search::before { content: "🔍"; }
+.fa-filter::before { content: "🔽"; }
+
+/* Ensure proper spacing */
+.fas.mr-1, .fa.mr-1 { margin-right: 0.25rem; }
+.fas.mr-2, .fa.mr-2 { margin-right: 0.5rem; }
+.fas.ml-1, .fa.ml-1 { margin-left: 0.25rem; }
+.fas.ml-2, .fa.ml-2 { margin-left: 0.5rem; }
+
+/* Color classes to match the original design */
+.text-blue-600 { color: #2563eb; }
+.text-rose-600 { color: #e11d48; }
+.text-yellow-500 { color: #eab308; }
+.text-green-600 { color: #16a34a; }
+.text-purple-600 { color: #9333ea; }
+.text-orange-500 { color: #f97316; }
