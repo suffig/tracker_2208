@@ -204,7 +204,7 @@ async function openBanForm(ban = null) {
         : BAN_TYPES.find(t => t.value === initialType)?.duration || 1;
 
     showModal(`
-        <form id="ban-form" class="space-y-4 px-2 max-w-[420px] mx-auto bg-gray-800 dark:bg-gray-800 dark:text-gray-100 rounded-lg text-white dark:text-white">
+        <form id="ban-form" class="space-y-4 px-2 w-full mx-auto bg-gray-800 dark:bg-gray-800 dark:text-gray-100 rounded-lg text-white dark:text-white">
             <h3 class="font-bold text-lg mb-2">${edit ? 'Sperre bearbeiten' : 'Sperre hinzufügen'}</h3>
             <div>
                 <label class="font-semibold">Team:</label>

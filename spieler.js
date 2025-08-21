@@ -82,7 +82,7 @@ export async function renderSpielerTab(containerId = "app") {
 				<div class="text-md font-semibold mb-2 text-gray-200">🏆 Top 3 Torschützen</div>
 				<div class="flex flex-row gap-3 w-full overflow-x-auto pb-2">
 					${top3.map((s, idx) => `
-						<div class="flex-1 min-w-0 max-w-xs w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90
+						<div class="flex-1 min-w-0 w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90
 							${idx === 0 
 								? 'border-yellow-400 bg-gradient-to-br from-yellow-800 to-yellow-900 shadow-yellow-400/50 ring-2 ring-yellow-400/50'
 								: idx === 1
@@ -184,7 +184,7 @@ export async function renderSpielerTab(containerId = "app") {
                 <div class="text-md font-semibold mb-2 text-gray-200">⭐ Top 3 Spieler des Spiels</div>
                 <div class="flex flex-row gap-3 w-full overflow-x-auto pb-2">
                     ${top3.map((s, idx) => `
-					<div class="flex-1 min-w-0 max-w-xs w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90
+					<div class="flex-1 min-w-0 w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90
 						${idx === 0 
 							? 'border-yellow-400 bg-gradient-to-br from-yellow-800 to-yellow-900 shadow-yellow-400/50 ring-2 ring-yellow-400/50'
 							: idx === 1

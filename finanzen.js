@@ -430,7 +430,7 @@ function renderTransactions() {
 
 function openTransForm() {
     showModal(`
-        <form id="trans-form" class="space-y-4 px-2 max-w-[420px] mx-auto bg-gray-800 dark:bg-gray-800 rounded-lg text-white dark:text-white">
+        <form id="trans-form" class="space-y-4 px-2 w-full mx-auto bg-gray-800 dark:bg-gray-800 rounded-lg text-white dark:text-white">
             <h3 class="font-bold text-lg mb-2">Transaktion hinzufügen</h3>
             <select name="team" class="border rounded-lg p-3 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" required>
                 <option value="">Team wählen</option>

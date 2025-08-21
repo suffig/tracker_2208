@@ -353,10 +353,10 @@
     width: 100%;
   }
   .max-w-\[420px\] {
-    max-width: 420px;
+    max-width: 100%;
   }
   .max-w-\[480px\] {
-    max-width: 480px;
+    max-width: 100%;
   }
   .max-w-screen-xl {
     max-width: var(--breakpoint-xl);
@@ -1309,73 +1309,83 @@
 
 /* --- TEAMFARBEN: Real = Rot, AEK = Blau, Ehemalige = Grau --- */
 .bg-real, .cell-real, .text-real, .border-real {
-  background-color: #991b1b !important;
+  background: linear-gradient(135deg, #dc2626, #991b1b) !important;
   color: #fecaca !important;
-  border-color: #991b1b !important;
+  border-color: #dc2626 !important;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
 }
 .bg-aek, .cell-aek, .text-aek, .border-aek {
-  background-color: #1e3a8a !important;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a) !important;
   color: #dbeafe !important;
-  border-color: #1e3a8a !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
 }
 .bg-ehemalige, .cell-ehemalige, .text-ehemalige, .border-ehemalige {
-  background-color: #64748b !important;
+  background: linear-gradient(135deg, #64748b, #475569) !important;
   color: #f1f5f9 !important;
   border-color: #64748b !important;
+  box-shadow: 0 2px 8px rgba(100, 116, 139, 0.2);
 }
 
 /* --- Positions-Badges (Kader/Teams) --- */
 .badge-th {
-  background: #065f46 !important;
+  background: linear-gradient(135deg, #065f46, #047857) !important;
   color: #d1fae5 !important;
-  border: 1.5px solid #047857 !important;
+  border: 2px solid #10b981 !important;
+  box-shadow: 0 2px 8px rgba(6, 95, 70, 0.3);
 }
 .badge-def {
-  background: #1e3a8a !important;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb) !important;
   color: #dbeafe !important;
-  border: 1.5px solid #1e40af !important;
+  border: 2px solid #3b82f6 !important;
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3);
 }
 .badge-mid {
-  background: #facc15 !important;
-  color: #78350f !important;
-  border: 1.5px solid #ca8a04 !important;
+  background: linear-gradient(135deg, #d97706, #f59e0b) !important;
+  color: #fef3c7 !important;
+  border: 2px solid #fbbf24 !important;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
 }
 .badge-att {
-  background: #b91c1c !important;
-  color: #fee2e2 !important;
-  border: 1.5px solid #991b1b !important;
+  background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+  color: #fecaca !important;
+  border: 2px solid #f87171 !important;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
 }
 
 /* --- BUTTONS: Einheitlich, rund, groß, klare Farben --- */
 button,
 .btn,
 input[type="submit"] {
-  min-height: 48px;
+  min-height: 52px;
   border-radius: 16px;
   font-size: 1.12rem;
   font-weight: 600;
-  padding: 1.1em 0;
+  padding: 1.2em 1.5em;
   letter-spacing: 0.02em;
   transition: background 0.17s, color 0.13s, box-shadow 0.13s, scale 0.13s;
-  box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.12);
+  border: none;
+  cursor: pointer;
 }
 .btn-primary,
 button[type="submit"].btn-aek {
-  background: linear-gradient(90deg, #2563eb 80%, #38bdf8 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   color: #fff;
-  border-bottom: 3px solid #2563eb60;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
 }
 button[type="submit"].btn-real,
 .btn-real {
-  background: linear-gradient(90deg, #c0262d 80%, #f87171 100%);
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
   color: #fff;
-  border-bottom: 3px solid #c0262d60;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.25);
 }
 .btn-cancel,
 button[type="button"] {
-  background: #f3f4f6;
-  color: #23272f;
-  border: 1.5px solid #e5e7eb;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #374151;
+  border: 1.5px solid #d1d5db;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 button:active, .btn:active {
   scale: 0.97;
@@ -1406,7 +1416,7 @@ button:hover, .btn:hover {
   background: #f6f7fa;
   color: #23272f;
   width: 100%;
-  max-width: 420px;
+  max-width: 95vw;
   border-radius: 24px 24px 0 0;
   box-shadow: 0 -8px 32px rgba(0,0,0,0.18), 0 1.5px 0 #e2e8f0;
   padding: 2.1rem 1.2rem 1.5rem 1.2rem;
@@ -1501,12 +1511,12 @@ button:hover, .btn:hover {
   background: transparent;
   transition: background 0.17s, box-shadow 0.17s;
 }
-.indicator-squad    { background: #2563eb; }
-.indicator-matches  { background: #e11d48; }
-.indicator-bans     { background: #eab308; }
-.indicator-finanzen { background: #16a34a; }
-.indicator-stats    { background: #8b5cf6; }
-.indicator-spieler  { background: orange; }
+.indicator-squad    { background: linear-gradient(135deg, #2563eb, #3b82f6); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3); }
+.indicator-matches  { background: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
+.indicator-bans     { background: linear-gradient(135deg, #d97706, #f59e0b); box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3); }
+.indicator-finanzen { background: linear-gradient(135deg, #059669, #10b981); box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3); }
+.indicator-stats    { background: linear-gradient(135deg, #7c3aed, #8b5cf6); box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3); }
+.indicator-spieler  { background: linear-gradient(135deg, #ea580c, #f97316); box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3); }
 
 /* --- DARK MODE Anpassungen --- */
 @media (prefers-color-scheme: dark) {
@@ -1555,24 +1565,66 @@ button:active, a:active {
 /* --- RESPONSIVE --- */
 @media (max-width: 767px) {
   #bottom-nav { border-radius: 0 !important; }
-  #bottom-nav a { border-radius: 12px; }
+  #bottom-nav a { border-radius: 12px; padding: 12px 0 8px 0; min-height: 60px; }
   .modal-content { padding: 16px !important; margin: 8px !important; }
-  input, button, select, textarea { min-height: 48px; }
+  input, button, select, textarea { min-height: 52px; }
   h1, h2, h3 { line-height: 1.2; }
 }
 @media (max-width: 480px) {
   body { font-size: 16px; }
-  .modal-content { width: 95vw !important; max-width: 95vw !important; margin: 2.5vw !important; }
+  .modal-content { width: 98vw !important; max-width: 98vw !important; margin: 1vw !important; }
   .p-4 { padding: 1rem; }
   .p-6 { padding: 1.5rem; }
   .gap-4 { gap: 1rem; }
   .gap-6 { gap: 1.5rem; }
+  #bottom-nav a { padding: 10px 0 6px 0; }
 }
 #bottom-nav {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
 .dark { color-scheme: dark; }
+
+/* --- MOBILE ENHANCEMENTS --- */
+@media (max-width: 768px) {
+  .player-card {
+    border-radius: 1.25rem;
+    box-shadow: 0 6px 20px rgba(30,41,59,0.18);
+    margin-bottom: 0.75rem;
+    padding: 1rem;
+    min-height: 120px;
+  }
+  
+  .player-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(30,41,59,0.25);
+  }
+  
+  /* Enhanced team colors for mobile */
+  .bg-aek, .cell-aek {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+  }
+  
+  .bg-real, .cell-real {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  }
+  
+  /* Mobile-optimized navigation indicators */
+  .nav-indicator {
+    width: 10px;
+    height: 10px;
+    margin: 6px auto 0 auto;
+  }
+  
+  /* Enhanced touch targets */
+  .btn, button, input[type="submit"] {
+    min-height: 56px;
+    border-radius: 18px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+}
 
 /* --- KADER-DETAILS: Spieler-Karten, Teamfarben, Badges --- */
 .player-card {
