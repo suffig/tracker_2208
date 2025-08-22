@@ -358,7 +358,6 @@ function openPlayerForm(team, id) {
     }
     showModal(`
         <form id="player-form" class="space-y-4 w-full">
-            <h3 class="font-bold text-xl mb-6 text-center text-slate-100">${edit ? "Spieler bearbeiten" : "Spieler hinzufügen"} <span class="text-sky-400 font-medium">${team}</span></h3>
             <div class="space-y-4">
                 <input type="text" name="name" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-transparent" placeholder="Name" value="${player ? player.name : ""}" required>
                 <select name="position" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>

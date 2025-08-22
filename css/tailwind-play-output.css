@@ -1353,18 +1353,18 @@
   box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
 }
 
-/* --- BUTTONS: Einheitlich, rund, groß, klare Farben --- */
+/* --- BUTTONS: Einheitlich, rund, kompakter, klare Farben --- */
 button,
 .btn,
 input[type="submit"] {
-  min-height: 52px;
-  border-radius: 16px;
-  font-size: 1.12rem;
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 1.2em 1.5em;
+  padding: 0.8em 1.2em;
   letter-spacing: 0.02em;
   transition: background 0.17s, color 0.13s, box-shadow 0.13s, scale 0.13s;
-  box-shadow: 0 4px 16px rgba(37,99,235,0.12);
+  box-shadow: 0 4px 12px rgba(37,99,235,0.12);
   border: none;
   cursor: pointer;
 }
@@ -1398,6 +1398,15 @@ button:focus,
 button:hover, .btn:hover {
   filter: brightness(1.07);
   box-shadow: 0 4px 20px rgba(37,99,235,0.14);
+}
+
+/* --- Spezielle Styles für Torschütze-Buttons --- */
+#addScorerA, #addScorerB {
+  min-height: 36px !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  padding: 0.5rem 1rem !important;
+  font-weight: 500 !important;
 }
 
 /* --- MODAL & SHEET STYLES --- */
@@ -1490,9 +1499,9 @@ button:hover, .btn:hover {
   }
   
   button, input[type="submit"] {
-    min-height: 56px;
-    font-size: 1.12rem;
-    border-radius: 16px;
+    min-height: 48px;
+    font-size: 1rem;
+    border-radius: 12px;
   }
 }
 @media (max-width: 480px) {
@@ -1500,8 +1509,8 @@ button:hover, .btn:hover {
     padding-bottom: max(env(safe-area-inset-bottom, 12px), 12px) !important;
   }
   button, input[type="submit"] {
-    font-size: 1.15rem;
-    border-radius: 18px;
+    font-size: 1rem;
+    border-radius: 12px;
   }
 }
 
@@ -2037,9 +2046,9 @@ button:active, a:active {
   
   /* Enhanced touch targets */
   .btn, button, input[type="submit"] {
-    min-height: 56px;
-    border-radius: 18px;
-    font-size: 1.15rem;
+    min-height: 48px;
+    border-radius: 12px;
+    font-size: 1rem;
     font-weight: 600;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }
