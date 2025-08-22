@@ -335,7 +335,7 @@ function matchHtml(match, nr) {
                         'border-l-4 border-l-gray-500';
     
     return `
-    <div class="bg-gradient-to-r from-gray-800 to-gray-750 border border-gray-600 rounded-xl p-5 mt-4 text-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 ${resultClass} transform hover:scale-[1.02]">
+    <div class="bg-gradient-to-r from-gray-800 to-gray-750 border border-gray-600 rounded-xl p-5 mt-4 text-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 ${resultClass} transform hover:scale-[1.02] match-card-container">
       <!-- Match Header -->
       <div class="flex justify-between items-start mb-4">
         <div class="flex-1">
@@ -394,25 +394,49 @@ function matchHtml(match, nr) {
         </div>
         
         <!-- Cards Section -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-          <div class="bg-gradient-to-r from-blue-900/30 to-blue-800/30 border border-blue-700/50 rounded-xl p-3">
-            <div class="text-sm font-bold text-blue-300 mb-2 flex items-center gap-2">
-              <i class="fas fa-id-card"></i>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 match-cards-section">
+          <div class="bg-gradient-to-r from-blue-900/30 to-blue-800/30 border border-blue-700/50 rounded-xl p-4 card-item">
+            <div class="text-sm font-bold text-blue-300 mb-3 flex items-center gap-2">
+              <i class="fas fa-id-card text-blue-400"></i>
               ${match.teama} Karten:
             </div>
-            <div class="flex gap-2">
-              <span class="inline-flex items-center gap-1 bg-yellow-600 text-yellow-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">🟨 ${match.yellowa || 0}</span>
-              <span class="inline-flex items-center gap-1 bg-red-600 text-red-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">🟥 ${match.reda || 0}</span>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="flex items-center justify-between sm:justify-start bg-gradient-to-r from-yellow-500/20 to-yellow-400/20 border border-yellow-500/30 rounded-lg px-4 py-3 min-w-[120px] card-item">
+                <div class="flex items-center gap-2">
+                  <span class="text-yellow-400 text-lg font-bold">🟨</span>
+                  <span class="text-yellow-200 text-sm font-medium">Gelb</span>
+                </div>
+                <span class="bg-yellow-500 text-yellow-50 font-bold text-lg px-3 py-1 rounded-full min-w-[2.5rem] text-center shadow-lg">${match.yellowa || 0}</span>
+              </div>
+              <div class="flex items-center justify-between sm:justify-start bg-gradient-to-r from-red-500/20 to-red-400/20 border border-red-500/30 rounded-lg px-4 py-3 min-w-[120px] card-item">
+                <div class="flex items-center gap-2">
+                  <span class="text-red-400 text-lg font-bold">🟥</span>
+                  <span class="text-red-200 text-sm font-medium">Rot</span>
+                </div>
+                <span class="bg-red-500 text-red-50 font-bold text-lg px-3 py-1 rounded-full min-w-[2.5rem] text-center shadow-lg">${match.reda || 0}</span>
+              </div>
             </div>
           </div>
-          <div class="bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-700/50 rounded-xl p-3">
-            <div class="text-sm font-bold text-red-300 mb-2 flex items-center gap-2">
-              <i class="fas fa-id-card"></i>
+          <div class="bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-700/50 rounded-xl p-4 card-item">
+            <div class="text-sm font-bold text-red-300 mb-3 flex items-center gap-2">
+              <i class="fas fa-id-card text-red-400"></i>
               ${match.teamb} Karten:
             </div>
-            <div class="flex gap-2">
-              <span class="inline-flex items-center gap-1 bg-yellow-600 text-yellow-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">🟨 ${match.yellowb || 0}</span>
-              <span class="inline-flex items-center gap-1 bg-red-600 text-red-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">🟥 ${match.redb || 0}</span>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="flex items-center justify-between sm:justify-start bg-gradient-to-r from-yellow-500/20 to-yellow-400/20 border border-yellow-500/30 rounded-lg px-4 py-3 min-w-[120px] card-item">
+                <div class="flex items-center gap-2">
+                  <span class="text-yellow-400 text-lg font-bold">🟨</span>
+                  <span class="text-yellow-200 text-sm font-medium">Gelb</span>
+                </div>
+                <span class="bg-yellow-500 text-yellow-50 font-bold text-lg px-3 py-1 rounded-full min-w-[2.5rem] text-center shadow-lg">${match.yellowb || 0}</span>
+              </div>
+              <div class="flex items-center justify-between sm:justify-start bg-gradient-to-r from-red-500/20 to-red-400/20 border border-red-500/30 rounded-lg px-4 py-3 min-w-[120px] card-item">
+                <div class="flex items-center gap-2">
+                  <span class="text-red-400 text-lg font-bold">🟥</span>
+                  <span class="text-red-200 text-sm font-medium">Rot</span>
+                </div>
+                <span class="bg-red-500 text-red-50 font-bold text-lg px-3 py-1 rounded-full min-w-[2.5rem] text-center shadow-lg">${match.redb || 0}</span>
+              </div>
             </div>
           </div>
         </div>

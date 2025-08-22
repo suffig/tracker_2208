@@ -2068,6 +2068,48 @@ button:active, a:active {
   border: 0 !important; 
 }
 
+/* --- ENHANCED MATCH CARDS STYLING --- */
+.match-card-container {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.match-card-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced card display styling */
+.match-cards-section .card-item {
+  transition: all 0.2s ease-in-out;
+  backdrop-filter: blur(10px);
+}
+
+.match-cards-section .card-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Better responsive design for card counts */
+@media (max-width: 640px) {
+  .match-cards-section .card-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .match-cards-section .card-item .flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .match-cards-section .min-w-\[120px\] {
+    min-width: 100px;
+    width: 100%;
+  }
+}
+
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
