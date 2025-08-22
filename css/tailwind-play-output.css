@@ -1671,6 +1671,30 @@ button:active, a:active {
     height: 48px;
     flex-shrink: 0;
   }
+  
+  /* Enhanced filter buttons for mobile */
+  .sds-filter-btn {
+    font-size: 14px !important;
+    padding: 12px 8px !important;
+    min-height: 44px !important;
+  }
+  
+  /* Better table readability on mobile */
+  .table th, .table td {
+    padding: 12px 8px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Improved card buttons visibility */
+  .player-card button {
+    min-width: 40px !important;
+    min-height: 40px !important;
+  }
+  
+  /* Enhanced modal overlay visibility */
+  .modal-content {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8) !important;
+  }
 }
 #bottom-nav {
   -webkit-transform: translateZ(0);
