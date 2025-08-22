@@ -1617,12 +1617,60 @@ button:active, a:active {
 }
 @media (max-width: 480px) {
   body { font-size: 16px; }
-  .modal-content { width: 98vw !important; max-width: 98vw !important; margin: 1vw !important; }
+  .modal-content { 
+    width: 96vw !important; 
+    max-width: 96vw !important; 
+    margin: 2vw !important; 
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    padding: 1.5rem !important;
+  }
   .p-4 { padding: 1rem; }
   .p-6 { padding: 1.5rem; }
   .gap-4 { gap: 1rem; }
   .gap-6 { gap: 1.5rem; }
   #bottom-nav a { padding: 10px 0 6px 0; }
+  
+  /* Better spacing for form elements on mobile */
+  .modal-content .flex.space-x-2 {
+    gap: 0.75rem;
+  }
+  .modal-content .mb-2 {
+    margin-bottom: 1rem;
+  }
+  .modal-content .mt-2 {
+    margin-top: 1rem;
+  }
+  
+  /* Improve form field sizing on mobile */
+  .modal-content input, 
+  .modal-content select, 
+  .modal-content button {
+    min-height: 48px;
+    font-size: 16px;
+  }
+  
+  /* Better goal scorer row layout */
+  .scorer-row {
+    flex-wrap: wrap;
+    gap: 0.5rem !important;
+  }
+  
+  .scorer-row select {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .scorer-row input[type="number"] {
+    width: 80px;
+    flex-shrink: 0;
+  }
+  
+  .scorer-row button {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
 }
 #bottom-nav {
   -webkit-transform: translateZ(0);

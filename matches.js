@@ -286,54 +286,96 @@ function attachMatchEventListeners(uniqueDates) {
 
 function matchHtml(match, nr) {
     function goalsHtml(goals) {
-        if (!goals || !goals.length) return `<span class="text-gray-400 text-xs">(keine Torschützen)</span>`;
+        if (!goals || !goals.length) return `<span class="text-gray-400 text-xs italic">(keine Torschützen)</span>`;
         return goals
-            .map(g => `<span class="inline-block bg-gray-700 dark:bg-gray-600 text-gray-200 dark:text-gray-300 rounded px-2 mx-0.5">${g.player} (${g.count})</span>`)
+            .map(g => `<span class="inline-block bg-gray-700 dark:bg-gray-600 text-gray-200 dark:text-gray-300 rounded-full px-2 py-1 mx-0.5 text-xs font-medium">${g.player} (${g.count})</span>`)
             .join('');
     }
     function prizeHtml(amount, team) {
         const isPos = amount >= 0;
         const tClass = team === "AEK" ? "bg-blue-800 dark:bg-blue-900" : "bg-red-800 dark:bg-red-900";
         const color = isPos ? "text-green-200 dark:text-green-300" : "text-red-200 dark:text-red-300";
-        return `<span class="inline-block px-2 rounded ${tClass} ${color} font-bold">${isPos ? '+' : ''}${amount.toLocaleString('de-DE')} €</span>`;
+        return `<span class="inline-block px-3 py-1 rounded-full ${tClass} ${color} font-bold text-xs">${isPos ? '+' : ''}${amount.toLocaleString('de-DE')} €</span>`;
     }
+    
+    // Determine match result for better visual indication
+    const isWin = match.goalsa > match.goalsb ? 'AEK' : match.goalsa < match.goalsb ? 'Real' : 'Draw';
+    const resultClass = isWin === 'AEK' ? 'border-l-4 border-l-blue-500' : 
+                        isWin === 'Real' ? 'border-l-4 border-l-red-500' : 
+                        'border-l-4 border-l-gray-500';
+    
     return `
-    <div class="bg-gray-800 dark:bg-gray-800 border dark:border-gray-700 rounded-lg p-2 mt-1 text-gray-100 dark:text-gray-100">
-      <div class="flex justify-between items-center mb-1">
-        <div>
-          <span class="font-bold">#${nr} ${match.date}:</span>
-          <span>${match.teama} <b>${match.goalsa}</b> : <b>${match.goalsb}</b> ${match.teamb}</span>
+    <div class="bg-gray-800 dark:bg-gray-800 border dark:border-gray-700 rounded-xl p-4 mt-3 text-gray-100 dark:text-gray-100 shadow-lg hover:shadow-xl transition-all duration-200 ${resultClass}">
+      <!-- Match Header -->
+      <div class="flex justify-between items-start mb-3">
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-gray-700 text-gray-300 px-2 py-1 rounded-full text-xs font-medium">#${nr}</span>
+            <span class="text-gray-400 text-sm">${match.date}</span>
+          </div>
+          <div class="flex items-center justify-center bg-gray-700 rounded-lg p-3 mb-2">
+            <span class="text-blue-400 font-bold text-lg">${match.teama}</span>
+            <span class="mx-4 text-2xl font-bold">${match.goalsa}</span>
+            <span class="text-gray-400 text-lg">:</span>
+            <span class="mx-4 text-2xl font-bold">${match.goalsb}</span>
+            <span class="text-red-400 font-bold text-lg">${match.teamb}</span>
+          </div>
         </div>
-        <div class="flex gap-2">
-          <button class="edit-match-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm flex items-center justify-center active:scale-95 transition" title="Bearbeiten" data-id="${match.id}">
+        <div class="flex gap-2 ml-2">
+          <button class="edit-match-btn bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg text-sm flex items-center justify-center active:scale-95 transition-all shadow-md" title="Bearbeiten" data-id="${match.id}">
             <i class="fas fa-edit"></i>
           </button>
-          <button class="delete-match-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm flex items-center justify-center active:scale-95 transition" title="Löschen" data-id="${match.id}">
+          <button class="delete-match-btn bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg text-sm flex items-center justify-center active:scale-95 transition-all shadow-md" title="Löschen" data-id="${match.id}">
             <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>
-      <div class="text-xs mb-1">
-        <b>${match.teama} Torschützen:</b> ${goalsHtml(match.goalslista || [])}
+      
+      <!-- Goal Scorers Section -->
+      <div class="space-y-2 mb-3">
+        <div class="bg-gray-700 rounded-lg p-2">
+          <div class="text-xs font-semibold text-blue-400 mb-1">${match.teama} Torschützen:</div>
+          <div class="flex flex-wrap gap-1">${goalsHtml(match.goalslista || [])}</div>
+        </div>
+        <div class="bg-gray-700 rounded-lg p-2">
+          <div class="text-xs font-semibold text-red-400 mb-1">${match.teamb} Torschützen:</div>
+          <div class="flex flex-wrap gap-1">${goalsHtml(match.goalslistb || [])}</div>
+        </div>
       </div>
-      <div class="text-xs mb-1">
-        <b>${match.teamb} Torschützen:</b> ${goalsHtml(match.goalslistb || [])}
+      
+      <!-- Cards Section -->
+      <div class="grid grid-cols-2 gap-2 mb-3">
+        <div class="bg-gray-700 rounded-lg p-2">
+          <div class="text-xs font-semibold text-blue-400 mb-1">${match.teama} Karten:</div>
+          <div class="flex gap-1">
+            <span class="inline-block bg-yellow-600 text-yellow-100 rounded px-2 py-1 text-xs font-medium">🟨 ${match.yellowa || 0}</span>
+            <span class="inline-block bg-red-600 text-red-100 rounded px-2 py-1 text-xs font-medium">🟥 ${match.reda || 0}</span>
+          </div>
+        </div>
+        <div class="bg-gray-700 rounded-lg p-2">
+          <div class="text-xs font-semibold text-red-400 mb-1">${match.teamb} Karten:</div>
+          <div class="flex gap-1">
+            <span class="inline-block bg-yellow-600 text-yellow-100 rounded px-2 py-1 text-xs font-medium">🟨 ${match.yellowb || 0}</span>
+            <span class="inline-block bg-red-600 text-red-100 rounded px-2 py-1 text-xs font-medium">🟥 ${match.redb || 0}</span>
+          </div>
+        </div>
       </div>
-      <div class="text-xs">
-        <b>${match.teama} Karten:</b> <span class="inline-block bg-yellow-800 dark:bg-yellow-900 text-yellow-200 dark:text-yellow-300 rounded px-2 mx-0.5 text-xs">Gelb: ${match.yellowa || 0}</span>
-        <span class="inline-block bg-red-800 dark:bg-red-900 text-red-200 dark:text-red-300 rounded px-2 mx-0.5 text-xs">Rot: ${match.reda || 0}</span>
-      </div>
-      <div class="text-xs">
-        <b>${match.teamb} Karten:</b> <span class="inline-block bg-yellow-800 dark:bg-yellow-900 text-yellow-200 dark:text-yellow-300 rounded px-2 mx-0.5 text-xs">Gelb: ${match.yellowb || 0}</span>
-        <span class="inline-block bg-red-800 dark:bg-red-900 text-red-200 dark:text-red-300 rounded px-2 mx-0.5 text-xs">Rot: ${match.redb || 0}</span>
-      </div>
-      <div class="text-xs mt-2">
-        <b>Preisgelder:</b>
-        ${prizeHtml(match.prizeaek ?? 0, "AEK")}
-        ${prizeHtml(match.prizereal ?? 0, "Real")}
-      </div>
-      <div class="text-xs mt-1">
-        <b>Spieler des Spiels:</b> ${match.manofthematch ? match.manofthematch : '<span class="text-gray-400">-</span>'}
+      
+      <!-- Footer with Prizes and Man of the Match -->
+      <div class="border-t border-gray-700 pt-2 space-y-2">
+        <div>
+          <span class="text-xs font-semibold text-gray-400 block mb-1">Preisgelder:</span>
+          <div class="flex flex-wrap gap-1">
+            ${prizeHtml(match.prizeaek ?? 0, "AEK")}
+            ${prizeHtml(match.prizereal ?? 0, "Real")}
+          </div>
+        </div>
+        ${match.manofthematch ? `
+        <div>
+          <span class="text-xs font-semibold text-gray-400">Spieler des Spiels:</span>
+          <span class="inline-block bg-yellow-600 text-yellow-100 px-2 py-1 rounded-full text-xs font-medium ml-1">⭐ ${match.manofthematch}</span>
+        </div>
+        ` : ''}
       </div>
     </div>
     `;
@@ -693,13 +735,15 @@ function attachMatchFormEventHandlers(edit, id, aekSpieler, realSpieler) {
 function scorerFields(name, arr, spielerOpts) {
     if (!arr.length) arr = [{ player: "", count: 1 }];
     return arr.map((g, i) => `
-        <div class="flex space-x-2 mb-2 scorer-row mt-2">
-            <select name="${name}-player" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-2 h-10 text-base" style="min-width:100px;">
-                <option value="">Spieler</option>
+        <div class="flex space-x-2 mb-3 scorer-row mt-3 items-center">
+            <select name="${name}-player" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 h-12 text-base flex-1" style="min-width:120px;">
+                <option value="">Spieler wählen</option>
                 ${spielerOpts.replace(`value="${g.player}"`, `value="${g.player}" selected`)}
             </select>
-            <input type="number" min="1" name="${name}-count" placeholder="Tore" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-2 w-16 h-10 text-base" value="${g.count||1}">
-            <button type="button" class="remove-goal-btn bg-red-600 hover:bg-red-700 text-white px-2 rounded" title="Entfernen" ${arr.length===1 ? 'disabled' : ''}>-</button>
+            <input type="number" min="1" name="${name}-count" placeholder="Tore" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 h-12 text-base text-center" value="${g.count||1}">
+            <button type="button" class="remove-goal-btn bg-red-600 hover:bg-red-700 text-white px-3 py-3 rounded-lg h-12 w-12 flex items-center justify-center transition-all duration-200 ${arr.length===1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}" title="Torschütze entfernen" ${arr.length===1 ? 'disabled' : ''}>
+                <i class="fas fa-minus"></i>
+            </button>
         </div>
     `).join('');
 }
@@ -777,13 +821,13 @@ async function submitMatchForm(event, id) {
     // SdS Bonus
     let sdsBonusAek = 0, sdsBonusReal = 0;
     if (manofthematch) {
-        if (aekAthen.find(p => p.name === manofthematch)) sdsBonusAek = 100000;
-        if (realMadrid.find(p => p.name === manofthematch)) sdsBonusReal = 100000;
+        if (matchesData.aekAthen.find(p => p.name === manofthematch)) sdsBonusAek = 100000;
+        if (matchesData.realMadrid.find(p => p.name === manofthematch)) sdsBonusReal = 100000;
     }
 
     // Spieler des Spiels-Statistik (Tabelle spieler_des_spiels)
     if (manofthematch) {
-        let t = aekAthen.find(p => p.name === manofthematch) ? "AEK" : "Real";
+        let t = matchesData.aekAthen.find(p => p.name === manofthematch) ? "AEK" : "Real";
         const { data: existing } = await supabase.from('spieler_des_spiels').select('*').eq('name', manofthematch).eq('team', t);
         if (existing && existing.length > 0) {
             await supabase.from('spieler_des_spiels').update({ count: existing[0].count + 1 }).eq('id', existing[0].id);
@@ -926,8 +970,8 @@ async function submitMatchForm(event, id) {
             AEK: finances.aekAthen.debt || 0,
             Real: finances.realMadrid.debt || 0,
         };
-        const aekSds = manofthematch && aekAthen.find(p => p.name === manofthematch) ? 1 : 0;
-        const realSds = manofthematch && realMadrid.find(p => p.name === manofthematch) ? 1 : 0;
+        const aekSds = manofthematch && matchesData.aekAthen.find(p => p.name === manofthematch) ? 1 : 0;
+        const realSds = manofthematch && matchesData.realMadrid.find(p => p.name === manofthematch) ? 1 : 0;
 
         const aekBetrag = calcEchtgeldbetrag(aekOldBalance, prizeaek, aekSds);
         const realBetrag = calcEchtgeldbetrag(realOldBalance, prizereal, realSds);
