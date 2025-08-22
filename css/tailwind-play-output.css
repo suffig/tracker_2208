@@ -1666,18 +1666,38 @@ button:active, a:active {
   
   /* Better goal scorer row layout */
   .scorer-row {
-    flex-wrap: wrap;
+    flex-direction: row !important;
     gap: 0.5rem !important;
     margin-bottom: 0.75rem !important;
     display: flex !important;
-    flex-direction: column !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
   }
   
   .scorer-row select {
-    flex: 1 !important;
-    min-width: unset !important;
-    width: 100% !important;
-    margin-bottom: 0.5rem !important;
+    flex: 1 1 auto !important;
+    min-width: 100px !important;
+    width: auto !important;
+    margin-bottom: 0 !important;
+    font-size: 14px !important;
+    padding: 0.5rem !important;
+    min-height: 40px !important;
+  }
+  
+  .scorer-row input[type="number"] {
+    width: 60px !important;
+    flex-shrink: 0 !important;
+    font-size: 14px !important;
+    padding: 0.5rem !important;
+    min-height: 40px !important;
+  }
+  
+  .scorer-row button {
+    width: 40px !important;
+    height: 40px !important;
+    flex-shrink: 0 !important;
+    padding: 0.5rem !important;
+    min-height: 40px !important;
   }
   
   /* Compact match form sections */
@@ -1710,14 +1730,14 @@ button:active, a:active {
   }
   
   .scorer-row input[type="number"] {
-    width: 100px !important;
+    width: 60px !important;
     text-align: center !important;
     flex-shrink: 0 !important;
   }
   
   .scorer-row button {
-    width: 44px !important;
-    height: 44px !important;
+    width: 40px !important;
+    height: 40px !important;
     flex-shrink: 0 !important;
     display: flex !important;
     align-items: center !important;
@@ -1866,14 +1886,17 @@ button:active, a:active {
   
   /* Better goal scorer section layout */
   .scorer-row {
-    flex-direction: column !important;
-    gap: 0.75rem !important;
-    margin-bottom: 1rem !important;
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+    margin-bottom: 0.75rem !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
   }
   
   .scorer-row select {
-    width: 100% !important;
-    min-width: unset !important;
+    flex: 1 1 auto !important;
+    min-width: 100px !important;
+    width: auto !important;
   }
   
   .scorer-row .flex.gap-2 {
@@ -1883,13 +1906,14 @@ button:active, a:active {
   }
   
   .scorer-row input[type="number"] {
-    width: 100px !important;
+    width: 60px !important;
     text-align: center !important;
+    flex-shrink: 0 !important;
   }
   
   .scorer-row button {
-    width: 44px !important;
-    height: 44px !important;
+    width: 40px !important;
+    height: 40px !important;
     flex-shrink: 0 !important;
   }
   
