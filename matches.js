@@ -282,6 +282,29 @@ function attachMatchEventListeners(uniqueDates) {
             }
         };
     });
+
+    // Match toggle buttons for collapsible details
+    document.querySelectorAll('.match-toggle-btn').forEach(btn => {
+        btn.onclick = () => {
+            const matchId = btn.getAttribute('data-match-id');
+            const detailsDiv = document.querySelector(`.match-details[data-match-id="${matchId}"]`);
+            const icon = btn.querySelector('i');
+            
+            if (detailsDiv) {
+                const isHidden = detailsDiv.style.display === 'none';
+                detailsDiv.style.display = isHidden ? 'block' : 'none';
+                
+                // Rotate the chevron icon
+                if (icon) {
+                    if (isHidden) {
+                        icon.classList.add('rotate-180');
+                    } else {
+                        icon.classList.remove('rotate-180');
+                    }
+                }
+            }
+        };
+    });
 }
 
 function matchHtml(match, nr) {
@@ -319,6 +342,9 @@ function matchHtml(match, nr) {
           <div class="flex items-center gap-2 mb-1">
             <span class="bg-gray-700 text-gray-300 px-2 py-1 rounded-full text-xs font-medium">#${nr}</span>
             <span class="text-gray-400 text-sm">${match.date}</span>
+            <button class="match-toggle-btn bg-gray-600 hover:bg-gray-500 text-white px-2 py-1 rounded text-xs ml-2 transition-all" data-match-id="${match.id}" title="Details ein-/ausblenden">
+              <i class="fas fa-chevron-down transform transition-transform duration-200"></i>
+            </button>
           </div>
           <div class="flex items-center justify-center bg-gray-700 rounded-lg p-3 mb-2">
             <span class="text-blue-400 font-bold text-lg">${match.teama}</span>
@@ -338,51 +364,54 @@ function matchHtml(match, nr) {
         </div>
       </div>
       
-      <!-- Goal Scorers Section -->
-      <div class="space-y-2 mb-3">
-        <div class="bg-gray-700 rounded-lg p-2">
-          <div class="text-xs font-semibold text-blue-400 mb-1">${match.teama} Torschützen:</div>
-          <div class="flex flex-wrap gap-1">${goalsHtml(match.goalslista || [])}</div>
-        </div>
-        <div class="bg-gray-700 rounded-lg p-2">
-          <div class="text-xs font-semibold text-red-400 mb-1">${match.teamb} Torschützen:</div>
-          <div class="flex flex-wrap gap-1">${goalsHtml(match.goalslistb || [])}</div>
-        </div>
-      </div>
-      
-      <!-- Cards Section -->
-      <div class="grid grid-cols-2 gap-2 mb-3">
-        <div class="bg-gray-700 rounded-lg p-2">
-          <div class="text-xs font-semibold text-blue-400 mb-1">${match.teama} Karten:</div>
-          <div class="flex gap-1">
-            <span class="inline-block bg-yellow-600 text-yellow-100 rounded px-2 py-1 text-xs font-medium">🟨 ${match.yellowa || 0}</span>
-            <span class="inline-block bg-red-600 text-red-100 rounded px-2 py-1 text-xs font-medium">🟥 ${match.reda || 0}</span>
+      <!-- Collapsible Details Section -->
+      <div class="match-details" data-match-id="${match.id}" style="display: none;">
+        <!-- Goal Scorers Section -->
+        <div class="space-y-2 mb-3">
+          <div class="bg-gray-700 rounded-lg p-2">
+            <div class="text-xs font-semibold text-blue-400 mb-1">${match.teama} Torschützen:</div>
+            <div class="flex flex-wrap gap-1">${goalsHtml(match.goalslista || [])}</div>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-2">
+            <div class="text-xs font-semibold text-red-400 mb-1">${match.teamb} Torschützen:</div>
+            <div class="flex flex-wrap gap-1">${goalsHtml(match.goalslistb || [])}</div>
           </div>
         </div>
-        <div class="bg-gray-700 rounded-lg p-2">
-          <div class="text-xs font-semibold text-red-400 mb-1">${match.teamb} Karten:</div>
-          <div class="flex gap-1">
-            <span class="inline-block bg-yellow-600 text-yellow-100 rounded px-2 py-1 text-xs font-medium">🟨 ${match.yellowb || 0}</span>
-            <span class="inline-block bg-red-600 text-red-100 rounded px-2 py-1 text-xs font-medium">🟥 ${match.redb || 0}</span>
+        
+        <!-- Cards Section -->
+        <div class="grid grid-cols-2 gap-2 mb-3">
+          <div class="bg-gray-700 rounded-lg p-2">
+            <div class="text-xs font-semibold text-blue-400 mb-1">${match.teama} Karten:</div>
+            <div class="flex gap-1">
+              <span class="inline-block bg-yellow-600 text-yellow-100 rounded px-2 py-1 text-xs font-medium">🟨 ${match.yellowa || 0}</span>
+              <span class="inline-block bg-red-600 text-red-100 rounded px-2 py-1 text-xs font-medium">🟥 ${match.reda || 0}</span>
+            </div>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-2">
+            <div class="text-xs font-semibold text-red-400 mb-1">${match.teamb} Karten:</div>
+            <div class="flex gap-1">
+              <span class="inline-block bg-yellow-600 text-yellow-100 rounded px-2 py-1 text-xs font-medium">🟨 ${match.yellowb || 0}</span>
+              <span class="inline-block bg-red-600 text-red-100 rounded px-2 py-1 text-xs font-medium">🟥 ${match.redb || 0}</span>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Footer with Prizes and Man of the Match -->
-      <div class="border-t border-gray-700 pt-2 space-y-2">
-        <div>
-          <span class="text-xs font-semibold text-gray-400 block mb-1">Preisgelder:</span>
-          <div class="flex flex-wrap gap-1">
-            ${prizeHtml(match.prizeaek ?? 0, "AEK")}
-            ${prizeHtml(match.prizereal ?? 0, "Real")}
+        
+        <!-- Footer with Prizes and Man of the Match -->
+        <div class="border-t border-gray-700 pt-2 space-y-2">
+          <div>
+            <span class="text-xs font-semibold text-gray-400 block mb-1">Preisgelder:</span>
+            <div class="flex flex-wrap gap-1">
+              ${prizeHtml(match.prizeaek ?? 0, "AEK")}
+              ${prizeHtml(match.prizereal ?? 0, "Real")}
+            </div>
           </div>
+          ${match.manofthematch ? `
+          <div>
+            <span class="text-xs font-semibold text-gray-400">Spieler des Spiels:</span>
+            <span class="inline-block bg-yellow-600 text-yellow-100 px-2 py-1 rounded-full text-xs font-medium ml-1">⭐ ${match.manofthematch}</span>
+          </div>
+          ` : ''}
         </div>
-        ${match.manofthematch ? `
-        <div>
-          <span class="text-xs font-semibold text-gray-400">Spieler des Spiels:</span>
-          <span class="inline-block bg-yellow-600 text-yellow-100 px-2 py-1 rounded-full text-xs font-medium ml-1">⭐ ${match.manofthematch}</span>
-        </div>
-        ` : ''}
       </div>
     </div>
     `;
@@ -519,11 +548,23 @@ function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, ae
             <div class="flex space-x-3 items-center mb-1 mt-2">
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟨</label>
-                    <input type="number" min="0" max="20" name="yellowa" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center" value="${match?.yellowa || 0}">
+                    <div class="card-input-container relative">
+                        <input type="number" min="0" max="20" name="yellowa" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center pr-8" value="${match?.yellowa || 0}" readonly>
+                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
+                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="yellowa" data-max="20">+</button>
+                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="yellowa" data-min="0">−</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟥</label>
-                    <input type="number" min="0" max="11" name="reda" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center" value="${match?.reda || 0}">
+                    <div class="card-input-container relative">
+                        <input type="number" min="0" max="11" name="reda" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center pr-8" value="${match?.reda || 0}" readonly>
+                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
+                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="reda" data-max="11">+</button>
+                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="reda" data-min="0">−</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -533,11 +574,23 @@ function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, ae
             <div class="flex space-x-3 items-center mb-1 mt-2">
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟨</label>
-                    <input type="number" min="0" max="20" name="yellowb" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center" value="${match?.yellowb || 0}">
+                    <div class="card-input-container relative">
+                        <input type="number" min="0" max="20" name="yellowb" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center pr-8" value="${match?.yellowb || 0}" readonly>
+                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
+                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="yellowb" data-max="20">+</button>
+                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="yellowb" data-min="0">−</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟥</label>
-                    <input type="number" min="0" max="11" name="redb" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center" value="${match?.redb || 0}">
+                    <div class="card-input-container relative">
+                        <input type="number" min="0" max="11" name="redb" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[44px] text-base text-center pr-8" value="${match?.redb || 0}" readonly>
+                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
+                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="redb" data-max="11">+</button>
+                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="redb" data-min="0">−</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -743,6 +796,44 @@ function attachMatchFormEventHandlers(edit, id, aekSpieler, realSpieler) {
     } else {
         console.error('Team filter buttons not found:', { allBtn, aekBtn, realBtn });
     }
+
+    // Add event listeners for card increment/decrement buttons
+    function setupCardButtons() {
+        // Card increment buttons
+        document.querySelectorAll('.card-btn-up').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.getAttribute('data-target');
+                const max = parseInt(e.target.getAttribute('data-max')) || 99;
+                const input = document.querySelector(`input[name="${target}"]`);
+                if (input) {
+                    const current = parseInt(input.value) || 0;
+                    if (current < max) {
+                        input.value = current + 1;
+                    }
+                }
+            });
+        });
+
+        // Card decrement buttons
+        document.querySelectorAll('.card-btn-down').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.getAttribute('data-target');
+                const min = parseInt(e.target.getAttribute('data-min')) || 0;
+                const input = document.querySelector(`input[name="${target}"]`);
+                if (input) {
+                    const current = parseInt(input.value) || 0;
+                    if (current > min) {
+                        input.value = current - 1;
+                    }
+                }
+            });
+        });
+    }
+
+    // Setup card buttons after form is loaded
+    setTimeout(setupCardButtons, 100);
 
     document.getElementById("match-form").onsubmit = (e) => submitMatchForm(e, id);
 }
