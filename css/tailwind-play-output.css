@@ -1612,34 +1612,48 @@ button:active, a:active {
   #bottom-nav { border-radius: 0 !important; }
   #bottom-nav a { border-radius: 12px; padding: 12px 0 8px 0; min-height: 60px; }
   .modal-content { padding: 16px !important; margin: 8px !important; }
-  input, button, select, textarea { min-height: 52px; }
+  input, button, select, textarea { min-height: 48px; }
   h1, h2, h3 { line-height: 1.2; }
+  
+  /* Optimize modal form spacing for tablets */
+  .modal-content .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
 }
 @media (max-width: 480px) {
   body { font-size: 16px; }
   .modal-content { 
-    width: 96vw !important; 
-    max-width: 96vw !important; 
-    margin: 2vw !important; 
-    max-height: 90vh !important;
+    width: 95vw !important; 
+    max-width: 95vw !important; 
+    margin: 2.5vw !important; 
+    max-height: 85vh !important;
     overflow-y: auto !important;
-    padding: 1.5rem !important;
+    padding: 1rem !important;
   }
   .p-4 { padding: 1rem; }
   .p-6 { padding: 1.5rem; }
   .gap-4 { gap: 1rem; }
-  .gap-6 { gap: 1.5rem; }
+  .gap-6 { gap: 1rem; }
   #bottom-nav a { padding: 10px 0 6px 0; }
   
   /* Better spacing for form elements on mobile */
+  .modal-content .space-y-6 {
+    gap: 1rem;
+  }
   .modal-content .flex.space-x-2 {
     gap: 0.75rem;
   }
   .modal-content .mb-2 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
   .modal-content .mt-2 {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
+  }
+  .modal-content .p-3 {
+    padding: 0.75rem !important;
+  }
+  .modal-content .p-4 {
+    padding: 1rem !important;
   }
   
   /* Improve form field sizing on mobile */
@@ -1654,7 +1668,7 @@ button:active, a:active {
   .scorer-row {
     flex-wrap: wrap;
     gap: 0.5rem !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.75rem !important;
     display: flex !important;
     flex-direction: column !important;
   }
@@ -1664,6 +1678,28 @@ button:active, a:active {
     min-width: unset !important;
     width: 100% !important;
     margin-bottom: 0.5rem !important;
+  }
+  
+  /* Compact match form sections */
+  .modal-content .bg-gray-700 {
+    padding: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .modal-content h3 {
+    margin-bottom: 1rem !important;
+    font-size: 1.25rem !important;
+  }
+  
+  /* Better card input layout */
+  .modal-content .flex.space-x-3 {
+    gap: 1rem !important;
+  }
+  
+  /* More compact team filter buttons */
+  .modal-content .flex.flex-wrap.gap-3 {
+    gap: 0.5rem !important;
+    margin-bottom: 0.75rem !important;
   }
   
   .scorer-row .flex.gap-2 {
