@@ -1810,8 +1810,22 @@ button:active, a:active {
       transition: transform 0.1s ease;
     }
     
+    .card-btn {
+      min-width: 40px !important;
+      font-size: 14px !important;
+      min-height: 24px !important;
+    }
+    
     .card-btn:active {
       transform: scale(0.95);
+    }
+    
+    .card-buttons {
+      width: 40px !important;
+    }
+    
+    .card-input-container .card-input {
+      padding-right: 42px !important;
     }
     
     .match-toggle-btn:active {
@@ -1825,11 +1839,23 @@ button:active, a:active {
     
     /* Better visual feedback for collapsible cards */
     .match-toggle-btn {
-      min-width: 32px !important;
-      min-height: 32px !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
+    }
+    
+    /* Improve card input containers on mobile */
+    .card-input-container {
+      min-width: 120px !important;
+      display: flex !important;
+      justify-content: center !important;
+    }
+    
+    /* Better spacing for form sections on mobile */
+    .bg-gray-700.border.border-gray-600.p-4.rounded-lg {
+      margin-bottom: 1rem !important;
     }
   }
   
