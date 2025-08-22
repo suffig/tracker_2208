@@ -544,7 +544,6 @@ function openMatchForm(id) {
 function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, aekSorted, realSorted, goalsListA, goalsListB, manofthematch) {
     return `
     <form id="match-form" class="space-y-6 w-full">
-        <h3 class="font-bold text-xl mb-6 text-center text-slate-100">${edit ? "Match bearbeiten" : "Match hinzufügen"}</h3>
         <div class="space-y-4">
             <div class="flex justify-center">
                 <button type="button" id="show-date" class="flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-sky-400 border border-slate-600 rounded-lg px-4 py-3 bg-slate-700 focus:outline-none transition-all focus:ring-2 focus:ring-sky-500" tabindex="0">
