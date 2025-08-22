@@ -314,9 +314,15 @@ function matchHtml(match, nr) {
             .map(g => {
                 // Handle both string array format (legacy) and object format (new)
                 if (typeof g === 'string') {
-                    return `<span class="inline-flex items-center gap-1 bg-gradient-to-r from-green-600 to-green-500 text-green-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">${g} <span class="bg-green-700 rounded-full px-2 py-0.5 text-xs">1</span></span>`;
+                    return `<span class="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-500 text-green-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">
+                        ${g} 
+                        <span class="inline-block rounded-md px-2 py-1 border font-bold text-xs bg-green-700 border-green-600 text-green-100">1</span>
+                    </span>`;
                 } else {
-                    return `<span class="inline-flex items-center gap-1 bg-gradient-to-r from-green-600 to-green-500 text-green-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">${g.player} <span class="bg-green-700 rounded-full px-2 py-0.5 text-xs">${g.count}</span></span>`;
+                    return `<span class="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-500 text-green-100 rounded-lg px-3 py-1 text-sm font-medium shadow-md">
+                        ${g.player} 
+                        <span class="inline-block rounded-md px-2 py-1 border font-bold text-xs bg-green-700 border-green-600 text-green-100">${g.count}</span>
+                    </span>`;
                 }
             })
             .join(' ');
@@ -325,7 +331,10 @@ function matchHtml(match, nr) {
         const isPos = amount >= 0;
         const tClass = team === "AEK" ? "bg-blue-800 dark:bg-blue-900" : "bg-red-800 dark:bg-red-900";
         const color = isPos ? "text-green-200 dark:text-green-300" : "text-red-200 dark:text-red-300";
-        return `<span class="inline-block px-3 py-1 rounded-full ${tClass} ${color} font-bold text-xs">${isPos ? '+' : ''}${amount.toLocaleString('de-DE')} €</span>`;
+        return `<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full ${tClass} ${color} font-bold text-xs">
+                    <span class="font-semibold">${team}</span>
+                    <span>${isPos ? '+' : ''}${amount.toLocaleString('de-DE')} €</span>
+                </span>`;
     }
     
     // Determine match result for better visual indication
@@ -435,7 +444,16 @@ function matchHtml(match, nr) {
               <i class="fas fa-star"></i>
               Spieler des Spiels:
             </div>
-            <span class="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-600 to-yellow-500 text-yellow-100 px-3 py-2 rounded-lg text-sm font-bold shadow-lg">⭐ ${match.manofthematch}</span>
+            <span class="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-600 to-yellow-500 text-yellow-100 px-3 py-2 rounded-lg text-sm font-bold shadow-lg">
+              ⭐ ${match.manofthematch}
+              <span class="text-xs font-medium opacity-90">(${(() => {
+                // Determine team from match data
+                if (match.goalslista && match.goalslista.some(g => g.player === match.manofthematch)) return 'AEK';
+                if (match.goalslistb && match.goalslistb.some(g => g.player === match.manofthematch)) return 'Real';
+                // Fallback: check if player is in AEK or Real team
+                return matchesData.aekAthen.find(p => p.name === match.manofthematch) ? 'AEK' : 'Real';
+              })()})</span>
+            </span>
           </div>
           ` : ''}
         </div>
@@ -575,22 +593,18 @@ function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, ae
             <div class="flex space-x-3 items-center mb-1 mt-2">
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟨</label>
-                    <div class="card-input-container relative">
-                        <input type="number" min="0" max="20" name="yellowa" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-full max-w-[100px] min-h-[44px] text-base text-center pr-12" value="${match?.yellowa || 0}" readonly>
-                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
-                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="yellowa" data-max="20">+</button>
-                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="yellowa" data-min="0">−</button>
-                        </div>
+                    <div class="flex items-center gap-1">
+                        <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="yellowa" data-min="0">−</button>
+                        <input type="number" min="0" max="20" name="yellowa" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-16 min-h-[40px] text-base text-center" value="${match?.yellowa || 0}" readonly>
+                        <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="yellowa" data-max="20">+</button>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟥</label>
-                    <div class="card-input-container relative">
-                        <input type="number" min="0" max="11" name="reda" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-full max-w-[100px] min-h-[44px] text-base text-center pr-12" value="${match?.reda || 0}" readonly>
-                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
-                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="reda" data-max="11">+</button>
-                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="reda" data-min="0">−</button>
-                        </div>
+                    <div class="flex items-center gap-1">
+                        <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="reda" data-min="0">−</button>
+                        <input type="number" min="0" max="11" name="reda" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-16 min-h-[40px] text-base text-center" value="${match?.reda || 0}" readonly>
+                        <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="reda" data-max="11">+</button>
                     </div>
                 </div>
             </div>
@@ -601,22 +615,18 @@ function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, ae
             <div class="flex space-x-3 items-center mb-1 mt-2">
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟨</label>
-                    <div class="card-input-container relative">
-                        <input type="number" min="0" max="20" name="yellowb" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-full max-w-[100px] min-h-[44px] text-base text-center pr-12" value="${match?.yellowb || 0}" readonly>
-                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
-                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="yellowb" data-max="20">+</button>
-                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="yellowb" data-min="0">−</button>
-                        </div>
+                    <div class="flex items-center gap-1">
+                        <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="yellowb" data-min="0">−</button>
+                        <input type="number" min="0" max="20" name="yellowb" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-16 min-h-[40px] text-base text-center" value="${match?.yellowb || 0}" readonly>
+                        <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="yellowb" data-max="20">+</button>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <label class="text-gray-300 text-lg">🟥</label>
-                    <div class="card-input-container relative">
-                        <input type="number" min="0" max="11" name="redb" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-full max-w-[100px] min-h-[44px] text-base text-center pr-12" value="${match?.redb || 0}" readonly>
-                        <div class="card-buttons absolute right-0 top-0 h-full flex flex-col">
-                            <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-tr-lg text-xs font-bold" data-target="redb" data-max="11">+</button>
-                            <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 flex-1 rounded-br-lg text-xs font-bold" data-target="redb" data-min="0">−</button>
-                        </div>
+                    <div class="flex items-center gap-1">
+                        <button type="button" class="card-btn card-btn-down bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="redb" data-min="0">−</button>
+                        <input type="number" min="0" max="11" name="redb" class="card-input border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-16 min-h-[40px] text-base text-center" value="${match?.redb || 0}" readonly>
+                        <button type="button" class="card-btn card-btn-up bg-gray-600 hover:bg-gray-500 text-white px-2 py-2 rounded-lg text-sm font-bold w-8 h-10 flex items-center justify-center" data-target="redb" data-max="11">+</button>
                     </div>
                 </div>
             </div>
@@ -691,14 +701,16 @@ function attachMatchFormEventHandlers(edit, id, aekSpieler, realSpieler) {
     function addScorerHandler(scorersId, name, spielerOpts) {
         const container = document.getElementById(scorersId);
         const div = document.createElement("div");
-        div.className = "flex space-x-2 mb-2 scorer-row mt-2";
+        div.className = "flex gap-2 mb-2 scorer-row mt-2 items-center";
         div.innerHTML = `
-            <select name="${name}-player" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-2 h-10 text-base" style="min-width:100px;">
-                <option value="">Spieler</option>
+            <select name="${name}-player" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 min-h-[48px] text-base flex-1" style="min-width:120px;">
+                <option value="">Spieler wählen</option>
                 ${spielerOpts}
             </select>
-            <input type="number" min="1" name="${name}-count" placeholder="Tore" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-2 w-16 h-10 text-base" value="1">
-            <button type="button" class="remove-goal-btn bg-red-600 hover:bg-red-700 text-white px-2 rounded" title="Entfernen">-</button>
+            <input type="number" min="1" name="${name}-count" placeholder="Tore" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[48px] text-base text-center flex-shrink-0" value="1">
+            <button type="button" class="remove-goal-btn bg-red-600 hover:bg-red-700 text-white px-3 py-3 rounded-lg min-h-[48px] w-12 flex items-center justify-center transition-all duration-200 flex-shrink-0 hover:scale-105" title="Torschütze entfernen">
+                <i class="fas fa-minus"></i>
+            </button>
         `;
         div.querySelector('.remove-goal-btn').onclick = function() {
             if(container.querySelectorAll('.scorer-row').length > 1)
@@ -780,16 +792,39 @@ function attachMatchFormEventHandlers(edit, id, aekSpieler, realSpieler) {
             }
         }
         
-        // Filter options - show all if no team selected, otherwise filter by team
-        options.forEach(option => {
-            if (option.value === '') {
-                option.style.display = ''; // Always show "Keiner" option
-                return;
-            }
+        // Mobile-friendly option filtering - rebuild select options instead of hiding
+        const selectedValue = select.value;
+        const allOptions = Array.from(options).map(opt => ({
+            value: opt.value,
+            text: opt.textContent,
+            team: opt.getAttribute('data-team'),
+            selected: opt.selected
+        }));
+        
+        // Clear and rebuild options for mobile compatibility
+        select.innerHTML = '';
+        
+        // Add "Keiner" option
+        const noneOption = document.createElement('option');
+        noneOption.value = '';
+        noneOption.textContent = 'Keiner';
+        if (selectedValue === '') noneOption.selected = true;
+        select.appendChild(noneOption);
+        
+        // Add filtered team options
+        allOptions.forEach(optData => {
+            if (optData.value === '') return; // Skip empty option (already added)
             
-            const optionTeam = option.getAttribute('data-team');
-            // Show options for the selected team
-            option.style.display = optionTeam && optionTeam.toLowerCase() === team.toLowerCase() ? '' : 'none';
+            const optionTeam = optData.team;
+            // Show options for the selected team only
+            if (optionTeam && optionTeam.toLowerCase() === team.toLowerCase()) {
+                const option = document.createElement('option');
+                option.value = optData.value;
+                option.textContent = optData.text;
+                option.setAttribute('data-team', optData.team);
+                if (selectedValue === optData.value) option.selected = true;
+                select.appendChild(option);
+            }
         });
     }
     
@@ -851,17 +886,15 @@ function attachMatchFormEventHandlers(edit, id, aekSpieler, realSpieler) {
 function scorerFields(name, arr, spielerOpts) {
     if (!arr.length) arr = [{ player: "", count: 1 }];
     return arr.map((g, i) => `
-        <div class="flex flex-col sm:flex-row gap-2 mb-3 scorer-row mt-3 items-stretch sm:items-center">
+        <div class="flex gap-2 mb-3 scorer-row mt-3 items-center">
             <select name="${name}-player" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 min-h-[48px] text-base flex-1" style="min-width:120px;">
                 <option value="">Spieler wählen</option>
                 ${spielerOpts.replace(`value="${g.player}"`, `value="${g.player}" selected`)}
             </select>
-            <div class="flex gap-2 sm:gap-2">
-                <input type="number" min="1" name="${name}-count" placeholder="Tore" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[48px] text-base text-center flex-shrink-0" value="${g.count||1}">
-                <button type="button" class="remove-goal-btn bg-red-600 hover:bg-red-700 text-white px-3 py-3 rounded-lg min-h-[48px] w-12 flex items-center justify-center transition-all duration-200 flex-shrink-0 ${arr.length===1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}" title="Torschütze entfernen" ${arr.length===1 ? 'disabled' : ''}>
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
+            <input type="number" min="1" name="${name}-count" placeholder="Tore" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-20 min-h-[48px] text-base text-center flex-shrink-0" value="${g.count||1}">
+            <button type="button" class="remove-goal-btn bg-red-600 hover:bg-red-700 text-white px-3 py-3 rounded-lg min-h-[48px] w-12 flex items-center justify-center transition-all duration-200 flex-shrink-0 ${arr.length===1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}" title="Torschütze entfernen" ${arr.length===1 ? 'disabled' : ''}>
+                <i class="fas fa-minus"></i>
+            </button>
         </div>
     `).join('');
 }
