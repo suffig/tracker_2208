@@ -1654,22 +1654,38 @@ button:active, a:active {
   .scorer-row {
     flex-wrap: wrap;
     gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
   
   .scorer-row select {
-    flex: 1;
-    min-width: 120px;
+    flex: 1 !important;
+    min-width: unset !important;
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .scorer-row .flex.gap-2 {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
   }
   
   .scorer-row input[type="number"] {
-    width: 80px;
-    flex-shrink: 0;
+    width: 100px !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
   }
   
   .scorer-row button {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
+    width: 44px !important;
+    height: 44px !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   
   /* Enhanced filter buttons for mobile */
@@ -1678,6 +1694,107 @@ button:active, a:active {
     padding: 12px 8px !important;
     min-height: 44px !important;
     touch-action: manipulation;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+  
+  /* Fix filter button container layout on mobile */
+  .modal-content .flex.flex-wrap.gap-3 {
+    display: flex !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .modal-content .flex.flex-wrap.gap-3 .sds-filter-btn {
+    flex: 1 1 33.333% !important;
+    max-width: calc(33.333% - 0.33rem) !important;
+    min-width: 90px !important;
+  }
+  
+  /* Card increment/decrement button styles */
+  .card-input-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .card-input-container .card-input {
+    padding-right: 2rem !important;
+  }
+  
+  .card-buttons {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 2rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0.5rem 0.5rem 0;
+    overflow: hidden;
+  }
+  
+  .card-btn {
+    flex: 1;
+    background: #4b5563;
+    color: white;
+    border: none;
+    padding: 0;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    touch-action: manipulation;
+    min-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-btn:hover {
+    background: #6b7280;
+  }
+  
+  .card-btn:active {
+    background: #374151;
+    transform: scale(0.95);
+  }
+  
+  .card-btn-up {
+    border-bottom: 1px solid #374151;
+  }
+  
+  /* Enhanced touch interaction for mobile */
+  @media (max-width: 480px) {
+    .sds-filter-btn:active {
+      transform: scale(0.98);
+      transition: transform 0.1s ease;
+    }
+    
+    .card-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .match-toggle-btn:active {
+      transform: scale(0.95);
+    }
+    
+    /* Ensure proper spacing for match cards */
+    .match-details {
+      transition: all 0.3s ease;
+    }
+    
+    /* Better visual feedback for collapsible cards */
+    .match-toggle-btn {
+      min-width: 32px !important;
+      min-height: 32px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
   }
   
   /* Improve filter button container spacing on mobile */
