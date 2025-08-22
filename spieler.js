@@ -54,6 +54,36 @@ export async function renderSpielerTab(containerId = "app") {
         return "";
     }
 
+    // Hilfsfunktion für Team-spezifische Card-Hintergründe mit Medal-Overlay
+    function getTeamCardBackground(team, position) {
+        let teamBase = "";
+        let medalOverlay = "";
+        
+        // Team-spezifische Basis-Farben
+        if (team === "Ehemalige") {
+            teamBase = "from-slate-600 to-slate-700";
+        } else if (team === "AEK") {
+            teamBase = "from-blue-600 to-blue-700";
+        } else { // Real Madrid
+            teamBase = "from-red-600 to-red-700";
+        }
+        
+        // Medal-spezifische Border und Shadow-Effekte
+        let borderClass = "";
+        if (position === 0) { // Gold
+            borderClass = "border-yellow-400";
+            medalOverlay = "shadow-yellow-400/30 ring-2 ring-yellow-400/60";
+        } else if (position === 1) { // Silver
+            borderClass = "border-gray-300";
+            medalOverlay = "shadow-gray-300/30 ring-2 ring-gray-300/60";
+        } else { // Bronze
+            borderClass = "border-orange-400";
+            medalOverlay = "shadow-orange-400/30 ring-2 ring-orange-400/60";
+        }
+        
+        return `bg-gradient-to-br ${teamBase} ${medalOverlay} ${borderClass}`;
+    }
+
     async function renderTorschuetzen() {
         // Spieler laden
         const { data: players, error: errP } = await supabase.from('players').select('*');
@@ -76,7 +106,7 @@ export async function renderSpielerTab(containerId = "app") {
         const top3 = scorerArr.slice(0, 3);
         const rest = scorerArr.slice(3);
 
-		// Card-Ansicht Top 3 - alle in einer Reihe, responsive (scrollbar auf ganz kleinen Screens)
+		// Card-Ansicht Top 3 - alle in einer Reihe, responsive mit Team-Farben
 		let top3Html = '';
 		if (top3.length) {
 			top3Html = `
@@ -84,12 +114,7 @@ export async function renderSpielerTab(containerId = "app") {
 				<div class="text-md font-semibold mb-2 text-gray-200">🏆 Top 3 Torschützen</div>
 				<div class="flex flex-row gap-3 w-full overflow-x-auto pb-2">
 					${top3.map((s, idx) => `
-						<div class="flex-1 min-w-0 w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90
-							${idx === 0 
-								? 'border-yellow-400 bg-gradient-to-br from-yellow-800 to-yellow-900 shadow-yellow-400/50 ring-2 ring-yellow-400/50'
-								: idx === 1
-									? 'border-gray-300 bg-gradient-to-br from-gray-600 to-gray-700 shadow-gray-400/50 ring-2 ring-gray-300/50'
-									: 'border-orange-400 bg-gradient-to-br from-orange-800 to-orange-900 shadow-orange-400/50 ring-2 ring-orange-400/50'}">
+						<div class="flex-1 min-w-0 w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90 ${getTeamCardBackground(s.team, idx)}">
 							<div class="text-2xl font-extrabold mb-1">${getBadge(idx)}</div>
 							<div class="font-bold mb-0.5 text-base truncate w-full text-center ${getCardClassForTop3(s.team, idx)}">${s.name}</div>
 							<div class="text-xs text-base mb-1 ${getCardClassForTop3(s.team, idx)} flex items-center justify-center">
@@ -186,12 +211,7 @@ export async function renderSpielerTab(containerId = "app") {
                 <div class="text-md font-semibold mb-2 text-gray-200">⭐ Top 3 Spieler des Spiels</div>
                 <div class="flex flex-row gap-3 w-full overflow-x-auto pb-2">
                     ${top3.map((s, idx) => `
-					<div class="flex-1 min-w-0 w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90
-						${idx === 0 
-							? 'border-yellow-400 bg-gradient-to-br from-yellow-800 to-yellow-900 shadow-yellow-400/50 ring-2 ring-yellow-400/50'
-							: idx === 1
-								? 'border-gray-300 bg-gradient-to-br from-gray-600 to-gray-700 shadow-gray-400/50 ring-2 ring-gray-300/50'
-								: 'border-orange-400 bg-gradient-to-br from-orange-800 to-orange-900 shadow-orange-400/50 ring-2 ring-orange-400/50'}">
+					<div class="flex-1 min-w-0 w-full p-4 rounded-2xl shadow-lg flex flex-col items-center border-4 border-opacity-90 ${getTeamCardBackground(s.team, idx)}">
                             <div class="text-2xl font-extrabold mb-1">${getBadge(idx)}</div>
                             <div class="font-bold mb-0.5 text-base truncate w-full text-center ${getCardClassForTop3(s.team, idx)}">${s.name}</div>
                             <div class="text-xs text-base mb-1 ${getCardClassForTop3(s.team, idx)} flex items-center justify-center">

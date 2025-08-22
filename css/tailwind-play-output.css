@@ -1471,13 +1471,24 @@ button:hover, .btn:hover {
   .modal {
     padding: 0.5rem;
     padding-bottom: 90px;
+    align-items: flex-start !important;
+    padding-top: 1rem !important;
   }
   .modal-content {
     max-width: 100vw !important;
     border-radius: 16px !important;
     padding: 1.5rem !important;
-    max-height: calc(100vh - 120px);
+    max-height: calc(100vh - 140px);
+    display: flex !important;
+    flex-direction: column !important;
   }
+  
+  /* Ensure form buttons stick to bottom on tablets too */
+  .modal-content .form-btn-row {
+    margin-top: auto !important;
+    padding-top: 1rem !important;
+  }
+  
   button, input[type="submit"] {
     min-height: 56px;
     font-size: 1.12rem;
@@ -1607,6 +1618,22 @@ button:active, a:active {
   transition: transform 0.1s ease;
 }
 
+/* Enhanced mobile touch targets */
+@media (max-width: 767px) {
+  button, input[type="submit"], select, .btn {
+    min-height: 48px !important;
+    min-width: 48px !important;
+    touch-action: manipulation;
+  }
+  
+  /* Larger touch targets for small buttons */
+  .card-btn, .close-modal-btn, .remove-goal-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    touch-action: manipulation;
+  }
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 767px) {
   #bottom-nav { border-radius: 0 !important; }
@@ -1626,9 +1653,21 @@ button:active, a:active {
     width: 95vw !important; 
     max-width: 95vw !important; 
     margin: 2.5vw !important; 
-    max-height: 85vh !important;
+    max-height: 80vh !important;
     overflow-y: auto !important;
     padding: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  /* Ensure form buttons are always visible */
+  .modal-content .form-btn-row {
+    position: sticky !important;
+    bottom: 0 !important;
+    background: #1e293b !important;
+    padding: 1rem 0 0 0 !important;
+    margin-top: auto !important;
+    border-top: 1px solid #334155 !important;
   }
   .p-4 { padding: 1rem; }
   .p-6 { padding: 1.5rem; }

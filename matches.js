@@ -833,15 +833,43 @@ function attachMatchFormEventHandlers(edit, id, aekSpieler, realSpieler) {
     const realBtn = document.getElementById('sds-filter-real');
     
     if (aekBtn && realBtn) {
-        // Use both click and touchend events for better mobile compatibility
+        // Enhanced touch and click event handling for better mobile compatibility
         const addFilterEventListeners = (btn, team) => {
+            let touchStarted = false;
+            
             const handler = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 filterSdsDropdown(team);
             };
-            btn.addEventListener('click', handler);
-            btn.addEventListener('touchend', handler);
+            
+            // Handle touch events properly to avoid double firing
+            btn.addEventListener('touchstart', (e) => {
+                touchStarted = true;
+                btn.style.transform = 'scale(0.98)';
+            });
+            
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                btn.style.transform = 'scale(1)';
+                if (touchStarted) {
+                    touchStarted = false;
+                    filterSdsDropdown(team);
+                }
+            });
+            
+            btn.addEventListener('click', (e) => {
+                if (!touchStarted) {
+                    handler(e);
+                }
+            });
+            
+            // Reset touch state if touch is cancelled
+            btn.addEventListener('touchcancel', () => {
+                touchStarted = false;
+                btn.style.transform = 'scale(1)';
+            });
         };
         
         addFilterEventListeners(aekBtn, 'aek');
