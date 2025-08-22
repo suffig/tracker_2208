@@ -1677,6 +1677,66 @@ button:active, a:active {
     font-size: 14px !important;
     padding: 12px 8px !important;
     min-height: 44px !important;
+    touch-action: manipulation;
+  }
+  
+  /* Improve filter button container spacing on mobile */
+  .modal-content .flex.flex-wrap.gap-2 {
+    gap: 0.75rem !important;
+  }
+  
+  /* Better goal scorer section layout */
+  .scorer-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .scorer-row select {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+  
+  .scorer-row .flex.gap-2 {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  
+  .scorer-row input[type="number"] {
+    width: 100px !important;
+    text-align: center !important;
+  }
+  
+  .scorer-row button {
+    width: 44px !important;
+    height: 44px !important;
+    flex-shrink: 0 !important;
+  }
+  
+  /* Enhanced match card layout for mobile */
+  .bg-gray-800.border.rounded-xl {
+    margin-bottom: 1.5rem !important;
+    padding: 1rem !important;
+  }
+  
+  /* Better spacing for goal scorer display in match cards */
+  .bg-gray-700.rounded-lg.p-2 {
+    padding: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* Improve match score display */
+  .flex.items-center.justify-center.bg-gray-700.rounded-lg.p-3 {
+    padding: 1rem !important;
+    gap: 0.5rem !important;
+  }
+  
+  /* Better button spacing in match cards */
+  .edit-match-btn, .delete-match-btn {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: 0.5rem !important;
   }
   
   /* Better table readability on mobile */

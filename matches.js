@@ -288,7 +288,14 @@ function matchHtml(match, nr) {
     function goalsHtml(goals) {
         if (!goals || !goals.length) return `<span class="text-gray-400 text-xs italic">(keine Torschützen)</span>`;
         return goals
-            .map(g => `<span class="inline-block bg-gray-700 dark:bg-gray-600 text-gray-200 dark:text-gray-300 rounded-full px-2 py-1 mx-0.5 text-xs font-medium">${g.player} (${g.count})</span>`)
+            .map(g => {
+                // Handle both string array format (legacy) and object format (new)
+                if (typeof g === 'string') {
+                    return `<span class="inline-block bg-gray-700 dark:bg-gray-600 text-gray-200 dark:text-gray-300 rounded-full px-2 py-1 mx-0.5 text-xs font-medium">${g} (1)</span>`;
+                } else {
+                    return `<span class="inline-block bg-gray-700 dark:bg-gray-600 text-gray-200 dark:text-gray-300 rounded-full px-2 py-1 mx-0.5 text-xs font-medium">${g.player} (${g.count})</span>`;
+                }
+            })
             .join('');
     }
     function prizeHtml(amount, team) {
@@ -539,18 +546,18 @@ function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, ae
             <label class="font-semibold text-gray-100 block mb-2">Spieler des Spiels (SdS):</label>
             
             <!-- Team Filter Toggle with enhanced visual indicators -->
-            <div class="mb-3 flex flex-wrap gap-2">
-                <button type="button" id="sds-filter-all" class="sds-filter-btn bg-gray-600 hover:bg-gray-500 text-white px-3 py-3 sm:py-2 rounded-lg text-sm font-semibold transition-all duration-200 border-2 border-transparent flex items-center gap-1 min-h-[44px] flex-1 sm:flex-none justify-center">
+            <div class="mb-3 flex flex-wrap gap-3 sm:gap-2">
+                <button type="button" id="sds-filter-all" class="sds-filter-btn bg-gray-600 hover:bg-gray-500 text-white px-4 py-3 sm:py-2 rounded-lg text-sm font-semibold transition-all duration-200 border-2 border-transparent flex items-center gap-2 min-h-[48px] flex-1 sm:flex-none justify-center touch-manipulation">
                     <span class="w-3 h-3 bg-gray-400 rounded-full flex-shrink-0 indicator-circle"></span>
-                    Alle
+                    <span>Alle</span>
                 </button>
-                <button type="button" id="sds-filter-aek" class="sds-filter-btn bg-gray-600 hover:bg-blue-600 text-white px-3 py-3 sm:py-2 rounded-lg text-sm font-semibold transition-all duration-200 border-2 border-transparent flex items-center gap-1 min-h-[44px] flex-1 sm:flex-none justify-center">
+                <button type="button" id="sds-filter-aek" class="sds-filter-btn bg-gray-600 hover:bg-blue-600 text-white px-4 py-3 sm:py-2 rounded-lg text-sm font-semibold transition-all duration-200 border-2 border-transparent flex items-center gap-2 min-h-[48px] flex-1 sm:flex-none justify-center touch-manipulation">
                     <span class="w-3 h-3 bg-blue-400 rounded-full flex-shrink-0 indicator-circle"></span>
-                    AEK
+                    <span>AEK</span>
                 </button>
-                <button type="button" id="sds-filter-real" class="sds-filter-btn bg-gray-600 hover:bg-red-600 text-white px-3 py-3 sm:py-2 rounded-lg text-sm font-semibold transition-all duration-200 border-2 border-transparent flex items-center gap-1 min-h-[44px] flex-1 sm:flex-none justify-center">
+                <button type="button" id="sds-filter-real" class="sds-filter-btn bg-gray-600 hover:bg-red-600 text-white px-4 py-3 sm:py-2 rounded-lg text-sm font-semibold transition-all duration-200 border-2 border-transparent flex items-center gap-2 min-h-[48px] flex-1 sm:flex-none justify-center touch-manipulation">
                     <span class="w-3 h-3 bg-red-400 rounded-full flex-shrink-0 indicator-circle"></span>
-                    Real
+                    <span>Real</span>
                 </button>
             </div>
             
