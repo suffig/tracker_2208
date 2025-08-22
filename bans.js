@@ -204,43 +204,45 @@ async function openBanForm(ban = null) {
         : BAN_TYPES.find(t => t.value === initialType)?.duration || 1;
 
     showModal(`
-        <form id="ban-form" class="space-y-4 px-2 w-full mx-auto bg-gray-800 dark:bg-gray-800 dark:text-gray-100 rounded-lg text-white dark:text-white">
-            <h3 class="font-bold text-lg mb-2">${edit ? 'Sperre bearbeiten' : 'Sperre hinzufügen'}</h3>
-            <div>
-                <label class="font-semibold">Team:</label>
-                <select name="team" id="ban-team" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100">
-                    <option value="AEK"${team === "AEK" ? " selected" : ""}>AEK</option>
-                    <option value="Real"${team === "Real" ? " selected" : ""}>Real</option>
-                </select>
+        <form id="ban-form" class="space-y-6 w-full">
+            <h3 class="font-bold text-xl mb-6 text-center text-slate-100">${edit ? 'Sperre bearbeiten' : 'Sperre hinzufügen'}</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block font-semibold text-slate-200 mb-2">Team:</label>
+                    <select name="team" id="ban-team" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent">
+                        <option value="AEK"${team === "AEK" ? " selected" : ""}>AEK</option>
+                        <option value="Real"${team === "Real" ? " selected" : ""}>Real</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-200 mb-2">Spieler:</label>
+                    <select name="player_id" id="ban-player" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent">
+                        ${playerOptions(spielerArr, ban ? ban.player_id : null)}
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-200 mb-2">Typ:</label>
+                    <select name="type" id="ban-type" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent">
+                        ${typeOptions}
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-200 mb-2">Gesamtsperrenzahl:</label>
+                    <select name="totalgames" id="ban-totalgames" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent" ${initialType === "Gelb-Rote Karte" ? "disabled" : ""}>
+                        ${numberOptions(initialType, initialTotalGames, "totalgames")}
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-200 mb-2">Grund (optional):</label>
+                    <input type="text" name="reason" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-transparent" placeholder="Grund" value="${ban && ban.reason ? ban.reason : ''}">
+                </div>
             </div>
-            <div>
-                <label class="font-semibold">Spieler:</label>
-                <select name="player_id" id="ban-player" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100">
-                    ${playerOptions(spielerArr, ban ? ban.player_id : null)}
-                </select>
-            </div>
-            <div>
-                <label class="font-semibold">Typ:</label>
-                <select name="type" id="ban-type" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100">
-                    ${typeOptions}
-                </select>
-            </div>
-            <div>
-                <label class="font-semibold">Gesamtsperrenzahl:</label>
-                <select name="totalgames" id="ban-totalgames" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" ${initialType === "Gelb-Rote Karte" ? "disabled" : ""}>
-                    ${numberOptions(initialType, initialTotalGames, "totalgames")}
-                </select>
-            </div>
-            <div>
-                <label class="font-semibold">Grund (optional):</label>
-                <input type="text" name="reason" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" placeholder="Grund" value="${ban && ban.reason ? ban.reason : ''}">
-            </div>
-            <div class="flex gap-2">
-                <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white w-full px-4 py-3 rounded-lg text-base font-semibold transition flex gap-2 items-center justify-center">
+            <div class="flex gap-3 pt-4">
+                <button type="submit" class="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white w-full px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 flex gap-2 items-center justify-center shadow-lg hover:shadow-xl active:scale-95">
                   <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   ${edit ? 'Speichern' : 'Anlegen'}
                 </button>
-                <button type="button" class="bg-gray-200 dark:bg-gray-700 w-full px-4 py-3 rounded-lg text-base font-semibold" onclick="window.hideModal()">Abbrechen</button>
+                <button type="button" class="bg-slate-600 hover:bg-slate-700 text-slate-100 w-full px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 active:scale-95" onclick="window.hideModal()">Abbrechen</button>
             </div>
         </form>
     `);

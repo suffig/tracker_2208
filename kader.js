@@ -168,10 +168,10 @@ function renderPlayerList(containerId, arr, team) {
             : "";
 
         const d = document.createElement("div");
-        d.className = "player-card flex items-center bg-gray-800 dark:bg-gray-800 border dark:border-gray-700 rounded-lg p-4 shadow min-h-[110px]";
+        d.className = "player-card flex items-center bg-gradient-to-r from-slate-800 to-slate-700 border border-slate-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[110px]";
         d.innerHTML = `
           <div class="flex flex-col gap-2 mr-3">
-            <button class="edit-btn bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg flex items-center" title="Bearbeiten">
+            <button class="edit-btn bg-slate-600 hover:bg-slate-500 text-slate-100 transition-colors p-2 rounded-lg flex items-center" title="Bearbeiten">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 17H6v-3L16.293 3.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414L9 17z" />
               </svg>
@@ -217,10 +217,10 @@ function renderEhemaligeList(containerId = "ehemalige-players") {
 
         // Cards: Edit/Löschen links, Infos Mitte, Move zu AEK/Real rechts (blau/rot)
         const d = document.createElement("div");
-        d.className = "player-card flex items-center bg-gray-800 dark:bg-gray-800 border dark:border-gray-700 rounded-lg p-4 shadow min-h-[110px]";
+        d.className = "player-card flex items-center bg-gradient-to-r from-slate-800 to-slate-700 border border-slate-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[110px]";
         d.innerHTML = `
           <div class="flex flex-col gap-2 mr-3">
-            <button class="edit-btn bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg flex items-center" title="Bearbeiten">
+            <button class="edit-btn bg-slate-600 hover:bg-slate-500 text-slate-100 transition-colors p-2 rounded-lg flex items-center" title="Bearbeiten">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 17H6v-3L16.293 3.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414L9 17z" />
               </svg>
@@ -357,20 +357,22 @@ function openPlayerForm(team, id) {
         if (player) edit = true;
     }
     showModal(`
-        <form id="player-form" class="space-y-4 px-2 w-full mx-auto bg-gray-800 dark:bg-gray-800 dark:text-gray-100 rounded-lg text-white dark:text-white">
-            <h3 class="font-bold text-lg mb-2">${edit ? "Spieler bearbeiten" : "Spieler hinzufügen"} <span class="text-xs">${team}</span></h3>
-            <input type="text" name="name" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" placeholder="Name" value="${player ? player.name : ""}" required>
-            <select name="position" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" required>
-                <option value="">Position wählen</option>
-                ${POSITIONEN.map(pos => `<option${player && player.position === pos ? " selected" : ""}>${pos}</option>`).join("")}
-            </select>
-            <input type="number" min="0" step="0.1" name="value" class="border rounded-md p-2 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" placeholder="Marktwert (M)" value="${player && player.value !== undefined ? player.value : ""}" required>
-            <div class="flex gap-2">
-                <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white w-full px-4 py-3 rounded-lg text-base font-semibold transition flex gap-2 items-center justify-center">
+        <form id="player-form" class="space-y-4 w-full">
+            <h3 class="font-bold text-xl mb-6 text-center text-slate-100">${edit ? "Spieler bearbeiten" : "Spieler hinzufügen"} <span class="text-sky-400 font-medium">${team}</span></h3>
+            <div class="space-y-4">
+                <input type="text" name="name" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-transparent" placeholder="Name" value="${player ? player.name : ""}" required>
+                <select name="position" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                    <option value="">Position wählen</option>
+                    ${POSITIONEN.map(pos => `<option${player && player.position === pos ? " selected" : ""}>${pos}</option>`).join("")}
+                </select>
+                <input type="number" min="0" step="0.1" name="value" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-transparent" placeholder="Marktwert (M)" value="${player && player.value !== undefined ? player.value : ""}" required>
+            </div>
+            <div class="flex gap-3 pt-4">
+                <button type="submit" class="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white w-full px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 flex gap-2 items-center justify-center shadow-lg hover:shadow-xl active:scale-95">
                   <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   ${edit ? "Speichern" : "Anlegen"}
                 </button>
-                <button type="button" class="bg-gray-200 dark:bg-gray-700 w-full px-4 py-3 rounded-lg text-base font-semibold" onclick="window.hideModal()">Abbrechen</button>
+                <button type="button" class="bg-slate-600 hover:bg-slate-700 text-slate-100 w-full px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 active:scale-95" onclick="window.hideModal()">Abbrechen</button>
             </div>
         </form>
     `);

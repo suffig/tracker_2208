@@ -420,11 +420,11 @@ function openMatchForm(id) {
 // Helper function to generate form HTML
 function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, aekSorted, realSorted, goalsListA, goalsListB, manofthematch) {
     return `
-    <form id="match-form" class="space-y-4 px-2 w-full mx-auto bg-gray-800 text-gray-100 rounded-2xl shadow-lg py-6 relative" style="width:98vw;">
-        <h3 class="font-bold text-lg mb-2 text-center text-gray-100">${edit ? "Match bearbeiten" : "Match hinzufügen"}</h3>
-        <div class="flex flex-col gap-3 items-center mb-2">
-            <div class="flex flex-row items-center gap-2 w-full justify-center">
-                <button type="button" id="show-date" class="flex items-center gap-1 text-sm font-semibold text-gray-300 hover:text-sky-400 border border-gray-600 rounded-lg px-3 py-2 bg-gray-700 focus:outline-none transition-colors" tabindex="0">
+    <form id="match-form" class="space-y-6 w-full">
+        <h3 class="font-bold text-xl mb-6 text-center text-slate-100">${edit ? "Match bearbeiten" : "Match hinzufügen"}</h3>
+        <div class="space-y-4">
+            <div class="flex justify-center">
+                <button type="button" id="show-date" class="flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-sky-400 border border-slate-600 rounded-lg px-4 py-3 bg-slate-700 focus:outline-none transition-all focus:ring-2 focus:ring-sky-500" tabindex="0">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
@@ -432,15 +432,15 @@ function generateMatchFormHTML(edit, dateVal, match, aekSpieler, realSpieler, ae
                 </button>
                 <input type="date" name="date" id="date-input" class="hidden" value="${dateVal}" required>
             </div>
-            <div class="flex flex-row items-center gap-3 w-full justify-center">
+            <div class="flex items-center justify-center gap-4 bg-slate-800 rounded-lg p-4 border border-slate-600">
                 <div class="flex flex-col items-center">
-                    <span class="font-bold text-blue-400 text-base">AEK</span>
+                    <span class="font-bold text-blue-400 text-lg mb-2">AEK</span>
                 </div>
-                <input type="number" min="0" max="50" name="goalsa" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-16 text-center text-base focus:ring-2 focus:ring-sky-500" required placeholder="Tore" value="${match ? match.goalsa : ""}">
-                <span class="font-bold text-lg text-gray-100">:</span>
-                <input type="number" min="0" max="50" name="goalsb" class="border border-gray-600 bg-gray-700 text-gray-100 rounded-lg p-3 w-16 text-center text-base focus:ring-2 focus:ring-sky-500" required placeholder="Tore" value="${match ? match.goalsb : ""}">
+                <input type="number" min="0" max="50" name="goalsa" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-20 text-center text-lg font-bold focus:ring-2 focus:ring-sky-500 focus:border-transparent" required placeholder="0" value="${match ? match.goalsa : ""}">
+                <span class="font-bold text-xl text-slate-300 mx-2">:</span>
+                <input type="number" min="0" max="50" name="goalsb" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-20 text-center text-lg font-bold focus:ring-2 focus:ring-sky-500 focus:border-transparent" required placeholder="0" value="${match ? match.goalsb : ""}">
                 <div class="flex flex-col items-center">
-                    <span class="font-bold text-red-400 text-base">Real</span>
+                    <span class="font-bold text-red-400 text-lg mb-2">Real</span>
                 </div>
             </div>
         </div>

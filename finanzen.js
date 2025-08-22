@@ -430,27 +430,29 @@ function renderTransactions() {
 
 function openTransForm() {
     showModal(`
-        <form id="trans-form" class="space-y-4 px-2 w-full mx-auto bg-gray-800 dark:bg-gray-800 rounded-lg text-white dark:text-white">
-            <h3 class="font-bold text-lg mb-2">Transaktion hinzufügen</h3>
-            <select name="team" class="border rounded-lg p-3 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" required>
-                <option value="">Team wählen</option>
-                <option value="AEK">AEK</option>
-                <option value="Real">Real</option>
-            </select>
-            <select name="type" class="border rounded-lg p-3 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" required>
-                <option value="Sonstiges">Sonstiges</option>
-                <option value="Spielerkauf">Spielerkauf</option>
-                <option value="Spielerverkauf">Spielerverkauf</option>
-                <option value="Echtgeld-Ausgleich">Echtgeld-Ausgleich</option>
-            </select>
-            <input type="number" step="any" name="amount" class="border rounded-lg p-3 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" required placeholder="Betrag (negativ für Abzug)">
-            <input type="text" name="info" class="border rounded-lg p-3 w-full h-12 text-base dark:bg-gray-700 dark:text-gray-100" placeholder="Zusatzinfo (Spielername, Kommentar)">
-            <div class="flex gap-2">
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white w-full px-4 py-3 rounded-lg text-base font-semibold transition flex gap-2 items-center justify-center">
+        <form id="trans-form" class="space-y-6 w-full">
+            <h3 class="font-bold text-xl mb-6 text-center text-slate-100">Transaktion hinzufügen</h3>
+            <div class="space-y-4">
+                <select name="team" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                    <option value="">Team wählen</option>
+                    <option value="AEK">AEK</option>
+                    <option value="Real">Real</option>
+                </select>
+                <select name="type" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base focus:ring-2 focus:ring-sky-500 focus:border-transparent" required>
+                    <option value="Sonstiges">Sonstiges</option>
+                    <option value="Spielerkauf">Spielerkauf</option>
+                    <option value="Spielerverkauf">Spielerverkauf</option>
+                    <option value="Echtgeld-Ausgleich">Echtgeld-Ausgleich</option>
+                </select>
+                <input type="number" step="any" name="amount" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-transparent" required placeholder="Betrag (negativ für Abzug)">
+                <input type="text" name="info" class="border border-slate-600 bg-slate-700 text-slate-100 rounded-lg p-3 w-full text-base placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-transparent" placeholder="Zusatzinfo (Spielername, Kommentar)">
+            </div>
+            <div class="flex gap-3 pt-4">
+                <button type="submit" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white w-full px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 flex gap-2 items-center justify-center shadow-lg hover:shadow-xl active:scale-95">
                   <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   Speichern
                 </button>
-                <button type="button" class="bg-gray-200 dark:bg-gray-700 w-full px-4 py-3 rounded-lg text-base font-semibold" onclick="window.hideModal()">Abbrechen</button>
+                <button type="button" class="bg-slate-600 hover:bg-slate-700 text-slate-100 w-full px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 active:scale-95" onclick="window.hideModal()">Abbrechen</button>
             </div>
         </form>
     `);
