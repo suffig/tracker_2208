@@ -441,22 +441,45 @@ const createFallbackClient = () => {
       update: (data) => {
         console.warn('Supabase update not available in demo mode - simulating success');
         
-        // Create a new query builder for chaining
-        const updateQueryBuilder = createQueryBuilder(table);
-        updateQueryBuilder._updateData = data;
-        
-        // Override the execute query to handle the update
-        updateQueryBuilder.then = (resolve, reject) => {
-          const filteredData = filterData(table, queryState);
-          queryState = {};
-          // Update the sample data
-          filteredData.forEach(item => {
-            Object.assign(item, data);
-          });
-          resolve({ data: filteredData, error: null });
+        // Return a query builder that shares the same queryState
+        return {
+          eq: (column, value) => {
+            if (!queryState.eq) queryState.eq = [];
+            queryState.eq.push([column, value]);
+            return {
+              eq: (column2, value2) => {
+                queryState.eq.push([column2, value2]);
+                return Promise.resolve().then(() => {
+                  const filteredData = filterData(table, queryState);
+                  // Update the sample data
+                  filteredData.forEach(item => {
+                    Object.assign(item, data);
+                  });
+                  queryState = {}; // Reset state
+                  return { data: filteredData, error: null };
+                });
+              },
+              then: (resolve, reject) => {
+                const filteredData = filterData(table, queryState);
+                // Update the sample data
+                filteredData.forEach(item => {
+                  Object.assign(item, data);
+                });
+                queryState = {}; // Reset state
+                resolve({ data: filteredData, error: null });
+              }
+            };
+          },
+          then: (resolve, reject) => {
+            const filteredData = filterData(table, queryState);
+            // Update the sample data
+            filteredData.forEach(item => {
+              Object.assign(item, data);
+            });
+            queryState = {}; // Reset state
+            resolve({ data: filteredData, error: null });
+          }
         };
-        
-        return updateQueryBuilder;
       },
       delete: () => {
         console.warn('Supabase delete not available in demo mode - simulating success');
