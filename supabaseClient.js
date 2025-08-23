@@ -98,8 +98,16 @@ const createFallbackClient = () => {
     
     // Apply filters
     if (query.eq) {
-      const [column, value] = query.eq;
-      data = data.filter(item => item[column] === value);
+      if (Array.isArray(query.eq[0])) {
+        // Multiple eq conditions
+        query.eq.forEach(([column, value]) => {
+          data = data.filter(item => item[column] === value);
+        });
+      } else {
+        // Single eq condition
+        const [column, value] = query.eq;
+        data = data.filter(item => item[column] === value);
+      }
     }
     if (query.neq) {
       const [column, value] = query.neq;
@@ -129,6 +137,23 @@ const createFallbackClient = () => {
     if (query.in) {
       const [column, values] = query.in;
       data = data.filter(item => values.includes(item[column]));
+    }
+    
+    // Handle OR conditions
+    if (query.or) {
+      // Parse OR condition like "type.eq.Preisgeld,type.eq.Bonus SdS,type.eq.Echtgeld-Ausgleich"
+      const orConditions = query.or.split(',');
+      data = data.filter(item => {
+        return orConditions.some(condition => {
+          const parts = condition.split('.');
+          if (parts.length === 3 && parts[1] === 'eq') {
+            const column = parts[0];
+            const value = parts[2];
+            return item[column] === value;
+          }
+          return false;
+        });
+      });
     }
     
     // Apply ordering
@@ -298,114 +323,172 @@ const createFallbackClient = () => {
       }
     },
     from: (table) => {
-      let queryState = {};
-      
-      const executeQuery = () => {
+      return createQueryBuilder(table);
+    }
+  };
+
+  // Factored out query builder creation for reuse
+  function createQueryBuilder(table) {
+    let queryState = {};
+    
+    const executeQuery = () => {
+      const data = filterData(table, queryState);
+      queryState = {}; // Reset for next query
+      return Promise.resolve({ data, error: null });
+    };
+    
+    const queryBuilder = {
+      select: (columns = '*') => {
+        // Don't execute immediately, return the builder for chaining
+        return queryBuilder;
+      },
+      eq: (column, value) => {
+        queryState.eq = [...(queryState.eq || []), [column, value]];
+        return queryBuilder;
+      },
+      neq: (column, value) => {
+        queryState.neq = [column, value];
+        return queryBuilder;
+      },
+      gt: (column, value) => {
+        queryState.gt = [column, value];
+        return queryBuilder;
+      },
+      gte: (column, value) => {
+        queryState.gte = [column, value];
+        return queryBuilder;
+      },
+      lt: (column, value) => {
+        queryState.lt = [column, value];
+        return queryBuilder;
+      },
+      lte: (column, value) => {
+        queryState.lte = [column, value];
+        return queryBuilder;
+      },
+      like: (column, pattern) => {
+        queryState.like = [column, pattern];
+        return queryBuilder;
+      },
+      in: (column, values) => {
+        queryState.in = [column, values];
+        return queryBuilder;
+      },
+      order: (column, options = {}) => {
+        queryState.order = [column, options.ascending === false ? 'desc' : 'asc'];
+        return queryBuilder;
+      },
+      range: (start, end) => {
+        queryState.range = [start, end];
+        return queryBuilder;
+      },
+      limit: (count) => {
+        queryState.limit = count;
+        return queryBuilder;
+      },
+      // Additional methods that might be called by SupabaseWrapper
+      onConflict: (column) => {
+        // Ignore in fallback mode
+        return queryBuilder;
+      },
+      single: () => {
+        // Return first result only
         const data = filterData(table, queryState);
-        queryState = {}; // Reset for next query
-        return Promise.resolve({ data, error: null });
-      };
-      
-      const queryBuilder = {
-        select: (columns = '*') => {
-          // Don't execute immediately, return the builder for chaining
-          return queryBuilder;
-        },
-        eq: (column, value) => {
-          queryState.eq = [column, value];
-          return queryBuilder;
-        },
-        neq: (column, value) => {
-          queryState.neq = [column, value];
-          return queryBuilder;
-        },
-        gt: (column, value) => {
-          queryState.gt = [column, value];
-          return queryBuilder;
-        },
-        gte: (column, value) => {
-          queryState.gte = [column, value];
-          return queryBuilder;
-        },
-        lt: (column, value) => {
-          queryState.lt = [column, value];
-          return queryBuilder;
-        },
-        lte: (column, value) => {
-          queryState.lte = [column, value];
-          return queryBuilder;
-        },
-        like: (column, pattern) => {
-          queryState.like = [column, pattern];
-          return queryBuilder;
-        },
-        in: (column, values) => {
-          queryState.in = [column, values];
-          return queryBuilder;
-        },
-        order: (column, options = {}) => {
-          queryState.order = [column, options.ascending === false ? 'desc' : 'asc'];
-          return queryBuilder;
-        },
-        range: (start, end) => {
-          queryState.range = [start, end];
-          return queryBuilder;
-        },
-        limit: (count) => {
-          queryState.limit = count;
-          return queryBuilder;
-        },
-        // Additional methods that might be called by SupabaseWrapper
-        onConflict: (column) => {
-          // Ignore in fallback mode
-          return queryBuilder;
-        },
-        single: () => {
-          // Return first result only
-          const data = filterData(table, queryState);
-          queryState = {};
-          const result = data.length > 0 ? data[0] : null;
-          return Promise.resolve({ data: result, error: null });
-        },
-        maybeSingle: () => {
-          // Same as single but doesn't error if no results
-          const data = filterData(table, queryState);
-          queryState = {};
-          const result = data.length > 0 ? data[0] : null;
-          return Promise.resolve({ data: result, error: null });
-        },
-        // Make the builder thenable (awaitable)
-        then: (resolve, reject) => {
-          executeQuery().then(resolve, reject);
-        },
-        catch: (reject) => {
-          executeQuery().catch(reject);
-        },
-        finally: (callback) => {
-          executeQuery().finally(callback);
-        },
-        insert: (data) => {
-          console.warn('Supabase insert not available in demo mode - simulating success');
+        queryState = {};
+        const result = data.length > 0 ? data[0] : null;
+        return Promise.resolve({ data: result, error: null });
+      },
+      maybeSingle: () => {
+        // Same as single but doesn't error if no results
+        const data = filterData(table, queryState);
+        queryState = {};
+        const result = data.length > 0 ? data[0] : null;
+        return Promise.resolve({ data: result, error: null });
+      },
+      // Make the builder thenable (awaitable)
+      then: (resolve, reject) => {
+        executeQuery().then(resolve, reject);
+      },
+      catch: (reject) => {
+        executeQuery().catch(reject);
+      },
+      finally: (callback) => {
+        executeQuery().finally(callback);
+      },
+      insert: (data) => {
+        console.warn('Supabase insert not available in demo mode - simulating success');
+        
+        // Create a new query builder for chaining
+        const insertQueryBuilder = createQueryBuilder(table);
+        insertQueryBuilder._insertData = data;
+        
+        // Override the execute query to handle the insert
+        insertQueryBuilder.then = (resolve, reject) => {
           // Simulate successful insert
           const newId = Math.max(...(sampleData[table] || []).map(item => item.id || 0)) + 1;
-          const newItem = { id: newId, ...data, created_at: new Date().toISOString() };
+          const newItem = Array.isArray(data) 
+            ? data.map((item, i) => ({ id: newId + i, ...item, created_at: new Date().toISOString() }))
+            : [{ id: newId, ...data, created_at: new Date().toISOString() }];
+          
           if (sampleData[table]) {
-            sampleData[table].push(newItem);
+            sampleData[table].push(...newItem);
           }
-          return Promise.resolve({ data: [newItem], error: null });
-        },
-        update: (data) => {
-          console.warn('Supabase update not available in demo mode - simulating success');
-          const filteredData = filterData(table, queryState);
-          queryState = {};
-          // Update the sample data
-          filteredData.forEach(item => {
-            Object.assign(item, data);
-          });
-          return Promise.resolve({ data: filteredData, error: null });
-        },
-        delete: () => {
-          console.warn('Supabase delete not available in demo mode - simulating success');
+          resolve({ data: newItem, error: null });
+        };
+        
+        return insertQueryBuilder;
+      },
+      update: (data) => {
+        console.warn('Supabase update not available in demo mode - simulating success');
+        
+        // Return a query builder that shares the same queryState
+        return {
+          eq: (column, value) => {
+            if (!queryState.eq) queryState.eq = [];
+            queryState.eq.push([column, value]);
+            return {
+              eq: (column2, value2) => {
+                queryState.eq.push([column2, value2]);
+                return Promise.resolve().then(() => {
+                  const filteredData = filterData(table, queryState);
+                  // Update the sample data
+                  filteredData.forEach(item => {
+                    Object.assign(item, data);
+                  });
+                  queryState = {}; // Reset state
+                  return { data: filteredData, error: null };
+                });
+              },
+              then: (resolve, reject) => {
+                const filteredData = filterData(table, queryState);
+                // Update the sample data
+                filteredData.forEach(item => {
+                  Object.assign(item, data);
+                });
+                queryState = {}; // Reset state
+                resolve({ data: filteredData, error: null });
+              }
+            };
+          },
+          then: (resolve, reject) => {
+            const filteredData = filterData(table, queryState);
+            // Update the sample data
+            filteredData.forEach(item => {
+              Object.assign(item, data);
+            });
+            queryState = {}; // Reset state
+            resolve({ data: filteredData, error: null });
+          }
+        };
+      },
+      delete: () => {
+        console.warn('Supabase delete not available in demo mode - simulating success');
+        
+        // Create a new query builder for chaining
+        const deleteQueryBuilder = createQueryBuilder(table);
+        
+        // Override the execute query to handle the delete
+        deleteQueryBuilder.then = (resolve, reject) => {
           const filteredData = filterData(table, queryState);
           queryState = {};
           // Remove from sample data
@@ -414,12 +497,19 @@ const createFallbackClient = () => {
               !filteredData.some(toDelete => toDelete.id === item.id)
             );
           }
-          return Promise.resolve({ data: filteredData, error: null });
-        }
-      };
-      
-      return queryBuilder;
-    },
+          resolve({ data: filteredData, error: null });
+        };
+        
+        return deleteQueryBuilder;
+      },
+      or: (conditions) => {
+        queryState.or = conditions;
+        return queryBuilder;
+      }
+    };
+    
+    return queryBuilder;
+  }
     channel: (channelName = 'default') => {
       console.warn('⚠️ Supabase realtime not available - using enhanced fallback simulation');
       
