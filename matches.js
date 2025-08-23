@@ -1026,7 +1026,7 @@ async function submitMatchForm(event, id) {
     }
 
     // Edit-Modus: Vorherigen Match löschen (und zugehörige Transaktionen an diesem Tag!)
-    if (id && matches.find(m => m.id === id)) {
+    if (id && matchesData.matches.find(m => m.id === id)) {
         const { data: matchOld } = await supabase.from('matches').select('date').eq('id', id).single();
         if (matchOld && matchOld.date) {
             await supabase.from('transactions').delete().or(`type.eq.Preisgeld,type.eq.Bonus SdS,type.eq.Echtgeld-Ausgleich`).eq('date', matchOld.date);
@@ -1066,7 +1066,7 @@ async function submitMatchForm(event, id) {
     const matchId = inserted?.id;
 
     // Nach Insert: ALLE Daten laden (damit matches aktuell ist)
-    await loadAllData(() => {});
+    await matchesData.loadAllData(() => {});
 
     // Hole App-Matchnummer (laufende Nummer)
     const appMatchNr = getAppMatchNumber(matchId);
@@ -1156,8 +1156,8 @@ async function submitMatchForm(event, id) {
 
     if (winner && loser) {
         const debts = {
-            AEK: finances.aekAthen.debt || 0,
-            Real: finances.realMadrid.debt || 0,
+            AEK: matchesData.finances.aekAthen.debt || 0,
+            Real: matchesData.finances.realMadrid.debt || 0,
         };
         const aekSds = manofthematch && matchesData.aekAthen.find(p => p.name === manofthematch) ? 1 : 0;
         const realSds = manofthematch && matchesData.realMadrid.find(p => p.name === manofthematch) ? 1 : 0;
@@ -1303,18 +1303,7 @@ async function deleteMatch(id) {
 }
 
 export function resetMatchesState() {
-    matches = [];
-    aekAthen = [];
-    realMadrid = [];
-    bans = [];
-    finances = { aekAthen: { balance: 0 }, realMadrid: { balance: 0 } };
-    spielerDesSpiels = [];
-    transactions = [];
-    matchesInitialized = false;
-    if (matchesChannel && typeof matchesChannel.unsubscribe === "function") {
-        try { matchesChannel.unsubscribe(); } catch (e) {}
-    }
-    matchesChannel = undefined;
+    matchesData.reset();
 }
 
 export {matchesData as matches};
